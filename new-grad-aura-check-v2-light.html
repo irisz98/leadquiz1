@@ -419,7 +419,7 @@
     }
     .workplace-teaser-left { display: flex; align-items: center; gap: 8px; }
     .workplace-wicon { font-size: 15px; }
-    .workplace-title { font-size: 13px; font-weight: 700; color: var(--text-1); }
+    .workplace-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); }
     .workplace-teaser-right { display: flex; align-items: center; gap: 8px; }
     .workplace-hook { font-size: 12px; color: var(--text-3); }
     .workplace-chevron { font-size: 17px; color: var(--text-3); transition: transform 0.2s ease; display: inline-block; line-height: 1; }
@@ -493,6 +493,14 @@
     .ul-scope-card { background: var(--elevated); border-radius: 18px; padding: 18px 20px; }
     .ul-scope-title { font-family: 'Playfair Display', sans-serif; font-weight: 700; font-size: 16px; color: var(--text-1); display: block; margin-bottom: 4px; line-height: 1.3; }
     .ul-scope-sub { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+    .role-match-card { background: var(--elevated); border-radius: 18px; padding: 20px 20px 18px; }
+    .role-match-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
+    .role-match-sub { font-size: 13px; color: var(--text-2); line-height: 1.55; margin-bottom: 14px; }
+    .role-match-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .role-match-item { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 999px; padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--text-1); width: fit-content; }
+    .role-match-item .rm-emoji { font-size: 16px; line-height: 1; }
+    .role-match-available { font-size: 12px; color: var(--text-3); margin-bottom: 10px; }
+    .role-match-cta { font-size: 13px; font-weight: 600; color: var(--text-1); text-decoration: underline; cursor: pointer; }
 
     .ul-q-card-new { background: var(--elevated); border-radius: 18px; padding: 20px; }
     .ul-q-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
@@ -771,12 +779,13 @@
 
       <div class="cta-section-new">
         <button class="btn-primary" onclick="handleShareFromResults()">Send this to your friends 👀</button>
-        <button class="btn-ghost" onclick="handleShareFromResults()">View Detail Analysis</button>
+        <button class="btn-ghost" onclick="handleShareFromResults()">Would recruiters hire you?</button>
       </div>
 
       <div class="about-us-card">
-        <div class="about-us-label">About MYLS Interview</div>
-        <p class="about-us-text">MYLS Interview is an AI-powered platform that helps new grads and students land their dream roles. We simulate real behavioral interviews, analyze how you speak under pressure, and give you brutally honest feedback — the kind that actually makes you better. 30,000+ students have used MYLS to walk into recruiting season with confidence.</p>
+        <div class="about-us-label">About Us</div>
+        <p class="about-us-text">We're builders. We got obsessed with how AI is changing hiring so we built MYLS.
+30,000+ students have used it to find their footing, fix their blind spots, and walk into interviews with more confidence.</p>
       </div>
 
 
@@ -852,14 +861,17 @@
           <div class="hire-if-items" id="hire-if-items"></div>
         </div>
 
-        <div class="ul-scope-card">
-          <strong class="ul-scope-title">100+ roles. 30,000+ prepared.</strong>
-          <p class="ul-scope-sub">Try a free video response on MYLS →</p>
+        <div class="role-match-card">
+          <div class="role-match-title">How ready are you for these roles?</div>
+          <div class="role-match-sub">These roles match how you think and how you show up.</div>
+          <div class="role-match-list" id="role-match-list"></div>
+          <div class="role-match-available">All available on MYLS Interview 3.0.</div>
+          <div class="role-match-cta" onclick="window.open('#','_blank')">See your readiness for 100+ roles →</div>
         </div>
 
         <div class="ul-fb-card">
-          <div class="r-card-label" style="color:var(--text-1);font-size:13px;">🎤 Here's How You Actually Sounded</div>
-          <p style="font-size:12px;color:var(--text-3);margin-bottom:14px;">A preview of how we break down your real interview answers</p>
+          <div class="r-card-label" style="color:var(--text-1);font-size:13px;">A glimpse of your MYLS 3.0 analysis</div>
+          <p style="font-size:12px;color:var(--text-3);margin-bottom:14px;">In a real session, every word gets analyzed</p>
           <div class="ul-transcript-new">
             <div class="ul-transcript-label-new">What you said:</div>
             <p class="ul-transcript-text-new">"I'd say I'm driven, <mark>basically</mark> collaborative — <mark>basically what I mean is</mark> I like working with people and I'm pretty focused on getting things done, I think. And <mark>um</mark> resilient, because I've had to push through a lot of tough projects."</p>
@@ -1080,6 +1092,54 @@
     19: ['You show me a moment of genuine excitement — let the fire out.', 'You express one strong opinion in the interview.', 'You prove your calm isn\'t indifference by naming what you really care about.', 'You raise your energy level to match the room when it matters.'],
     20: ['You connect your big vision to today\'s to‑do list.', 'You give me one small, concrete example of a time you executed, not just imagined.', 'You show patience for the boring stuff, because it funds the dream.', 'You tell me what you\'d do in your first 90 days, not just in 2030.']
   };
+
+  // ── ROLE MATCH MATRIX (Industry × Persona) ───────────────────────────────
+  const ROLE_MATRIX = {
+    1:  { tech:['Data Analyst','UX Researcher','Software Engineer'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Content Strategist','Marketing Manager'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    2:  { tech:['Product Manager','Software Engineer','Data Analyst'], finance:['Investment Banking Analyst','Management Consultant','Strategy Associate'], marketing:['Marketing Manager','Sales Development Representative','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Biotech Analyst'], creative:['Business Development Representative','Project Manager','Operations Analyst'], other:['Business Development Representative','Project Manager','Operations Analyst'] },
+    3:  { tech:['Product Manager','Data Analyst','Solutions Engineer'], finance:['Management Consultant','Strategy Associate','Investment Banking Analyst'], marketing:['Brand Strategist','Marketing Manager','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Medical Affairs Associate'], creative:['Project Manager','Communications Manager','Business Development Representative'], other:['Project Manager','Communications Manager','Business Development Representative'] },
+    4:  { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Management Consultant','Investment Banking Analyst','Strategy Associate'], marketing:['Sales Development Representative','Marketing Manager','Brand Strategist'], healthcare:['Medical Affairs Associate','Healthcare Consultant','Health Policy Analyst'], creative:['Business Development Representative','Communications Manager','Project Manager'], other:['Business Development Representative','Communications Manager','Project Manager'] },
+    5:  { tech:['Software Engineer','Data Analyst','UX Researcher'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Content Strategist','Brand Strategist'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','UX Designer','Project Manager'], other:['Operations Analyst','UX Designer','Project Manager'] },
+    6:  { tech:['UX Researcher','Product Manager','Solutions Engineer'], finance:['Risk Analyst','Financial Analyst','Strategy Associate'], marketing:['Marketing Manager','Content Strategist','Brand Strategist'], healthcare:['Clinical Research Associate','Medical Affairs Associate','Healthcare Consultant'], creative:['Communications Manager','Project Manager','Operations Analyst'], other:['Communications Manager','Project Manager','Operations Analyst'] },
+    7:  { tech:['Data Analyst','Software Engineer','Product Manager'], finance:['Financial Analyst','Risk Analyst','Management Consultant'], marketing:['Growth Analyst','Brand Strategist','Content Strategist'], healthcare:['Biotech Analyst','Clinical Research Associate','Health Policy Analyst'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    8:  { tech:['Product Manager','UX Researcher','Solutions Engineer'], finance:['Management Consultant','Strategy Associate','Investment Banking Analyst'], marketing:['Brand Strategist','Content Strategist','Marketing Manager'], healthcare:['Medical Affairs Associate','Healthcare Consultant','Health Policy Analyst'], creative:['Communications Manager','Business Development Representative','Project Manager'], other:['Communications Manager','Business Development Representative','Project Manager'] },
+    9:  { tech:['Data Analyst','Software Engineer','Product Manager'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Marketing Manager','Brand Strategist'], healthcare:['Biotech Analyst','Clinical Research Associate','Health Policy Analyst'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    10: { tech:['UX Researcher','Product Manager','Solutions Engineer'], finance:['Risk Analyst','Financial Analyst','Strategy Associate'], marketing:['Content Strategist','Marketing Manager','Brand Strategist'], healthcare:['Clinical Research Associate','Medical Affairs Associate','Healthcare Consultant'], creative:['Communications Manager','UX Designer','Project Manager'], other:['Communications Manager','UX Designer','Project Manager'] },
+    11: { tech:['Product Manager','Solutions Engineer','Software Engineer'], finance:['Investment Banking Analyst','Strategy Associate','Management Consultant'], marketing:['Sales Development Representative','Marketing Manager','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Medical Affairs Associate'], creative:['Business Development Representative','Project Manager','Operations Analyst'], other:['Business Development Representative','Project Manager','Operations Analyst'] },
+    12: { tech:['Software Engineer','Data Analyst','UX Researcher'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Content Strategist','Brand Strategist'], healthcare:['Biotech Analyst','Clinical Research Associate','Medical Affairs Associate'], creative:['UX Designer','Operations Analyst','Project Manager'], other:['UX Designer','Operations Analyst','Project Manager'] },
+    13: { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Management Consultant','Investment Banking Analyst','Strategy Associate'], marketing:['Sales Development Representative','Brand Strategist','Marketing Manager'], healthcare:['Medical Affairs Associate','Healthcare Consultant','Health Policy Analyst'], creative:['Business Development Representative','Communications Manager','Project Manager'], other:['Business Development Representative','Communications Manager','Project Manager'] },
+    14: { tech:['Data Analyst','Software Engineer','Product Manager'], finance:['Financial Analyst','Risk Analyst','Management Consultant'], marketing:['Growth Analyst','Content Strategist','Marketing Manager'], healthcare:['Clinical Research Associate','Biotech Analyst','Health Policy Analyst'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    15: { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Strategy Associate','Management Consultant','Financial Analyst'], marketing:['Marketing Manager','Brand Strategist','Sales Development Representative'], healthcare:['Healthcare Consultant','Medical Affairs Associate','Biotech Analyst'], creative:['Project Manager','Business Development Representative','Communications Manager'], other:['Project Manager','Business Development Representative','Communications Manager'] },
+    16: { tech:['Data Analyst','UX Researcher','Software Engineer'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Content Strategist','Growth Analyst','Brand Strategist'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','UX Designer','Project Manager'], other:['Operations Analyst','UX Designer','Project Manager'] },
+    17: { tech:['Software Engineer','Product Manager','Solutions Engineer'], finance:['Investment Banking Analyst','Strategy Associate','Management Consultant'], marketing:['Sales Development Representative','Marketing Manager','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Medical Affairs Associate'], creative:['Business Development Representative','Project Manager','Operations Analyst'], other:['Business Development Representative','Project Manager','Operations Analyst'] },
+    18: { tech:['UX Researcher','Product Manager','Data Analyst'], finance:['Strategy Associate','Management Consultant','Risk Analyst'], marketing:['Brand Strategist','Content Strategist','Growth Analyst'], healthcare:['Health Policy Analyst','Healthcare Consultant','Medical Affairs Associate'], creative:['Communications Manager','UX Designer','Project Manager'], other:['Communications Manager','UX Designer','Project Manager'] },
+    19: { tech:['Data Analyst','UX Researcher','Software Engineer'], finance:['Risk Analyst','Financial Analyst','Strategy Associate'], marketing:['Content Strategist','Growth Analyst','Brand Strategist'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    20: { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Strategy Associate','Management Consultant','Investment Banking Analyst'], marketing:['Brand Strategist','Marketing Manager','Sales Development Representative'], healthcare:['Health Policy Analyst','Healthcare Consultant','Medical Affairs Associate'], creative:['Business Development Representative','Communications Manager','Project Manager'], other:['Business Development Representative','Communications Manager','Project Manager'] }
+  };
+
+  const ROLE_EMOJI = {
+    'Software Engineer': '💻', 'Product Manager': '📱', 'Data Analyst': '📊',
+    'UX Researcher': '🔍', 'Solutions Engineer': '⚙️',
+    'Investment Banking Analyst': '💰', 'Management Consultant': '📋',
+    'Financial Analyst': '📈', 'Strategy Associate': '🎯', 'Risk Analyst': '🛡️',
+    'Marketing Manager': '📣', 'Brand Strategist': '✨',
+    'Sales Development Representative': '🤝', 'Growth Analyst': '🚀',
+    'Content Strategist': '✍️', 'Clinical Research Associate': '🔬',
+    'Healthcare Consultant': '🏥', 'Biotech Analyst': '🧬',
+    'Medical Affairs Associate': '💊', 'Health Policy Analyst': '🏛️',
+    'Project Manager': '🗂️', 'Operations Analyst': '⚙️',
+    'Business Development Representative': '🤝', 'UX Designer': '🎨',
+    'Communications Manager': '📢'
+  };
+
+  function renderRoleMatch() {
+    if (!state.persona) return;
+    const ind = state.identity.industry || 'other';
+    const roles = (ROLE_MATRIX[state.persona.id] || {})[ind] || (ROLE_MATRIX[state.persona.id] || {}).other || [];
+    document.getElementById('role-match-list').innerHTML = roles.map(r =>
+      `<div class="role-match-item"><span class="rm-emoji">${ROLE_EMOJI[r] || '💼'}</span><span>${r}</span></div>`
+    ).join('');
+  }
 
   function renderHireIf() {
     if (!state.persona) return;
@@ -1371,6 +1431,7 @@
       document.getElementById('post-unlock').classList.add('visible');
       window.scrollTo(0,0);
       renderHireIf();
+      renderRoleMatch();
       workplaceActiveTab = 'manager';
       const wcard = document.getElementById('workplace-card');
       if (wcard) wcard.classList.remove('open');

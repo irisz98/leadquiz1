@@ -238,7 +238,7 @@ Tap below to share and claim your free toolkit."
 4.2.7 CTA Buttons
 Button Type    Copy    Action
 Primary (Large)    Invite a Friend & Unlock My Free Toolkit    Trigger native share sheet (iMessage, LinkedIn, Instagram, Snapchat)
-Secondary (Ghost)    View Detail Analysis    Navigate to Unlock Page
+Secondary (Ghost)    Would recruiters hire you?    Navigate to Unlock Page
 Text Link    *Ready to ace the real thing? 100+ roles. 30,000+ prepared.* →    Redirect to MYLS Interview Sign Up
 
 Design spec: All CTA buttons use corner radius of 12px (not pill/full-round).
@@ -250,7 +250,8 @@ Upon successful share interaction, the user is taken to the Unlock Page.
 A brand description card placed below the CTA buttons to build trust and product awareness.
 
 Copy:
-"MYLS Interview is an AI-powered platform that helps new grads and students land their dream roles. We simulate real behavioral interviews, analyze how you speak under pressure, and give you brutally honest feedback — the kind that actually makes you better. 30,000+ students have used MYLS to walk into recruiting season with confidence."
+"We're builders. We got obsessed with how AI is changing hiring so we built MYLS.
+30,000+ students have used it to find their footing, fix their blind spots, and walk into interviews with more confidence."
 
 Style: Subtle card with muted background, smaller body text. Not a conversion element — purely credibility/brand.
 
@@ -333,20 +334,23 @@ Prep Kit
 
 ---
 
-**2. MYLS 3.0 Ad Card** *(Compact teaser)*
+**2. Role Match Card** *(Dynamic role recommendations)*
 
-- Title: **100+ roles. 30,000+ prepared.**
-- Sub: Try a free video response on MYLS →
+- Eyebrow: **HOW READY ARE YOU FOR THESE ROLES?**
+- Subtitle: "These roles match how you think and how you show up."
+- Content: 3 roles dynamically selected based on the user's Target Industry + matched Persona (see Section 9.8), displayed as emoji + pill-style capsules
+- Footer line: "All available on MYLS Interview 3.0."
+- CTA link: "See your readiness for 100+ roles →"
 
-*Purpose: Low-pressure product CTA. Expand perceived scope.*
+*Purpose: Make the result feel career-relevant and personally targeted. Bridge persona insight to real job titles.*
 
 ---
 
-**3. 🎤 Here's How You Actually Sounded** *(AI Feedback Preview)*
+**3. A glimpse of your MYLS 3.0 analysis** *(AI Feedback Preview)*
 
-Section title: 🎤 Here's How You Actually Sounded
+Section title: A glimpse of your MYLS 3.0 analysis
 
-Preview framing: A preview of how we break down your real interview answers
+Preview framing: In a real session, every word gets analyzed
 
 **3.1 Transcript**
 Label: What you said:
@@ -1373,3 +1377,44 @@ You jump to what it means instead of what you've done.
 You talk about intent, not proof."
 
 🇨🇳 聊的都是五年计划、行业变革，格局很大。但面试官想先知道这周你上手能干嘛。你别一直飘在云里，先告诉ta你落地的那一刻脚在哪。
+
+---
+
+### 9.8 Role Recommendation Matrix (Industry × Persona)
+
+Used by Section 4.3 Role Match Card. 3 roles are selected per user based on their Target Industry + matched Persona.
+
+**Role Pool by Industry:**
+
+| Industry | Available Roles |
+|----------|----------------|
+| Tech / Engineering | Software Engineer, Product Manager, Data Analyst, UX Researcher, Solutions Engineer |
+| Finance / Consulting | Investment Banking Analyst, Management Consultant, Financial Analyst, Strategy Associate, Risk Analyst |
+| Marketing / Sales | Marketing Manager, Brand Strategist, Sales Development Representative, Growth Analyst, Content Strategist |
+| Healthcare / Biotech | Clinical Research Associate, Healthcare Consultant, Biotech Analyst, Medical Affairs Associate, Health Policy Analyst |
+| Other / Creative | Project Manager, Operations Analyst, Business Development Representative, UX Designer, Communications Manager |
+
+**Selection Logic:** Each persona has a dominant dimension profile (Act / Comm / Inter / Conf / Strat). Roles are mapped to the 3 best-fit options within the user's selected industry based on that profile.
+
+| Persona | Dominant Dimensions | Tech | Finance / Consulting | Marketing / Sales | Healthcare / Biotech | Other / Creative |
+|---------|-------------------|------|---------------------|-------------------|---------------------|-----------------|
+| The Dependable Intern | Low Act, Mid Inter | Data Analyst, UX Researcher, Software Engineer | Financial Analyst, Risk Analyst, Strategy Associate | Growth Analyst, Content Strategist, Marketing Manager | Clinical Research Associate, Biotech Analyst, Medical Affairs Associate | Operations Analyst, Project Manager, UX Designer |
+| The High-Potential Grinder | High Act, High Conf, High Strat | Product Manager, Software Engineer, Data Analyst | Investment Banking Analyst, Management Consultant, Strategy Associate | Marketing Manager, Sales Development Representative, Growth Analyst | Healthcare Consultant, Health Policy Analyst, Biotech Analyst | Business Development Representative, Project Manager, Operations Analyst |
+| The Case Study Natural | High Comm, High Strat | Product Manager, Data Analyst, Solutions Engineer | Management Consultant, Strategy Associate, Investment Banking Analyst | Brand Strategist, Marketing Manager, Growth Analyst | Healthcare Consultant, Health Policy Analyst, Medical Affairs Associate | Project Manager, Communications Manager, Business Development Representative |
+| The Coffee Chat Pro | High Inter, High Conf, High Comm | Product Manager, Solutions Engineer, UX Researcher | Management Consultant, Investment Banking Analyst, Strategy Associate | Sales Development Representative, Marketing Manager, Brand Strategist | Medical Affairs Associate, Healthcare Consultant, Health Policy Analyst | Business Development Representative, Communications Manager, Project Manager |
+| The Silent Sniper | Low Comm, Low Act, Mid Strat | Software Engineer, Data Analyst, UX Researcher | Financial Analyst, Risk Analyst, Strategy Associate | Growth Analyst, Content Strategist, Brand Strategist | Clinical Research Associate, Biotech Analyst, Medical Affairs Associate | Operations Analyst, UX Designer, Project Manager |
+| The People Pleaser | High Inter, Low Conf | UX Researcher, Product Manager, Solutions Engineer | Risk Analyst, Financial Analyst, Strategy Associate | Marketing Manager, Content Strategist, Brand Strategist | Clinical Research Associate, Medical Affairs Associate, Healthcare Consultant | Communications Manager, Project Manager, Operations Analyst |
+| The Over-Prepared Overthinker | High Strat, Low Conf | Data Analyst, Software Engineer, Product Manager | Financial Analyst, Risk Analyst, Management Consultant | Growth Analyst, Brand Strategist, Content Strategist | Biotech Analyst, Clinical Research Associate, Health Policy Analyst | Operations Analyst, Project Manager, UX Designer |
+| The Storyteller | High Comm, High Inter | Product Manager, UX Researcher, Solutions Engineer | Management Consultant, Strategy Associate, Investment Banking Analyst | Brand Strategist, Content Strategist, Marketing Manager | Medical Affairs Associate, Healthcare Consultant, Health Policy Analyst | Communications Manager, Business Development Representative, Project Manager |
+| The Data Whisperer | High Comm, High Strat | Data Analyst, Software Engineer, Product Manager | Financial Analyst, Risk Analyst, Strategy Associate | Growth Analyst, Marketing Manager, Brand Strategist | Biotech Analyst, Clinical Research Associate, Health Policy Analyst | Operations Analyst, Project Manager, UX Designer |
+| The Empathy Anchor | High Inter, Low Act | UX Researcher, Product Manager, Solutions Engineer | Risk Analyst, Financial Analyst, Strategy Associate | Content Strategist, Marketing Manager, Brand Strategist | Clinical Research Associate, Medical Affairs Associate, Healthcare Consultant | Communications Manager, UX Designer, Project Manager |
+| The Hustler | High Act, High Conf | Product Manager, Solutions Engineer, Software Engineer | Investment Banking Analyst, Strategy Associate, Management Consultant | Sales Development Representative, Marketing Manager, Growth Analyst | Healthcare Consultant, Health Policy Analyst, Medical Affairs Associate | Business Development Representative, Project Manager, Operations Analyst |
+| The Technical Purist | Low Comm, High Act | Software Engineer, Data Analyst, UX Researcher | Financial Analyst, Risk Analyst, Strategy Associate | Growth Analyst, Content Strategist, Brand Strategist | Biotech Analyst, Clinical Research Associate, Medical Affairs Associate | UX Designer, Operations Analyst, Project Manager |
+| The Charmer | High Conf, High Comm, High Inter | Product Manager, Solutions Engineer, UX Researcher | Management Consultant, Investment Banking Analyst, Strategy Associate | Sales Development Representative, Brand Strategist, Marketing Manager | Medical Affairs Associate, Healthcare Consultant, Health Policy Analyst | Business Development Representative, Communications Manager, Project Manager |
+| The Rule Follower | High Strat, Mid Comm | Data Analyst, Software Engineer, Product Manager | Financial Analyst, Risk Analyst, Management Consultant | Growth Analyst, Content Strategist, Marketing Manager | Clinical Research Associate, Biotech Analyst, Health Policy Analyst | Operations Analyst, Project Manager, UX Designer |
+| The Wild Card | Mid across all dimensions | Product Manager, Solutions Engineer, UX Researcher | Strategy Associate, Management Consultant, Financial Analyst | Marketing Manager, Brand Strategist, Sales Development Representative | Healthcare Consultant, Medical Affairs Associate, Biotech Analyst | Project Manager, Business Development Representative, Communications Manager |
+| The Imposter Syndrome Warrior | Low Conf, Mid Comm | Data Analyst, UX Researcher, Software Engineer | Financial Analyst, Risk Analyst, Strategy Associate | Content Strategist, Growth Analyst, Brand Strategist | Clinical Research Associate, Biotech Analyst, Medical Affairs Associate | Operations Analyst, UX Designer, Project Manager |
+| The "I Can Fix It" | High Act, High Conf, Low Comm | Software Engineer, Product Manager, Solutions Engineer | Investment Banking Analyst, Strategy Associate, Management Consultant | Sales Development Representative, Marketing Manager, Growth Analyst | Healthcare Consultant, Health Policy Analyst, Medical Affairs Associate | Business Development Representative, Project Manager, Operations Analyst |
+| The Curious Cat | Mid Act, High Comm, Mid Inter | UX Researcher, Product Manager, Data Analyst | Strategy Associate, Management Consultant, Risk Analyst | Brand Strategist, Content Strategist, Growth Analyst | Health Policy Analyst, Healthcare Consultant, Medical Affairs Associate | Communications Manager, UX Designer, Project Manager |
+| The Calm in the Storm | Low Act, Mid Conf | Data Analyst, UX Researcher, Software Engineer | Risk Analyst, Financial Analyst, Strategy Associate | Content Strategist, Growth Analyst, Brand Strategist | Clinical Research Associate, Biotech Analyst, Medical Affairs Associate | Operations Analyst, Project Manager, UX Designer |
+| The Visionary | High Comm, High Conf, Mid Strat | Product Manager, Solutions Engineer, UX Researcher | Strategy Associate, Management Consultant, Investment Banking Analyst | Brand Strategist, Marketing Manager, Sales Development Representative | Health Policy Analyst, Healthcare Consultant, Medical Affairs Associate | Business Development Representative, Communications Manager, Project Manager |
