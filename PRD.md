@@ -27,15 +27,14 @@ Pain Point: "How do recruiters actually perceive me?" / "What's my biggest inter
 2. Core Gameplay Overview
 Users complete 3 situational multiple-choice questions + 1 voice recording prompt. The system combines choice logic with multimodal speech analysis to generate a "New Grad Potential Report" .
 
-Report Contents:
+Report Contents (see Section 4.2.6 for full detail):
 
-Persona Label
-
-Character Trait Tags (displayed inline below persona name, no card wrapper)
-
-One-Liner Verdict
-
-Blurred Lock Section
+- Persona Name + Character Trait Tags
+- Rarity Statement (conditional)
+- One-Liner
+- 5-Dimension Radar Chart
+- Persona Analysis (5-line commentary)
+- Blurred Lock Section
 
 Viral Mechanism:
 A blurred/locked section at the bottom of the report contains *"3 Personalized Interview Questions + 1 AI Video Review."* Users must share the quiz with a peer to unlock the full content.
@@ -61,16 +60,16 @@ graph TD
     L --> M[Click Secondary CTA to Sign Up]
 4. Page-by-Page Specifications
 4.1 Page Structure (Single Scrolling H5)
-#	Module	Description
-1	Hero Section	Headline + Subhead + Background visual hinting at video interview
-2	Identity Tags	Dropdown/Buttons: Year in School + Target Industry
-3	Q1-Q3 Multiple Choice	3 card-style situational questions
-4	Q4 Voice Interaction	Mic permission → Recording → Multimodal feedback preview
-5	Analysis Loader	Radar scan animation + JD matching copy
-6	Results Report	Persona name + inline trait tags + One-liner + AI Recruiter's Lens + Blurred Lock
-7	CTA Buttons	Primary: Share to Unlock / Secondary: Sign Up / Corner radius: 12px
-8	About Us Card	MYLS brand description card below CTA buttons
-9	Footer	Privacy Policy, Powered by MYLS
+#    Module    Description
+1    Hero Section    Headline + Subhead + Background visual hinting at video interview
+2    Identity Tags    Dropdown/Buttons: Year in School + Target Industry
+3    Q1-Q3 Multiple Choice    3 card-style situational questions
+4    Q4 Voice Interaction    Mic permission → Recording → Multimodal feedback preview
+5    Analysis Loader    Radar scan animation + JD matching copy
+6    Results Report    Persona name + Trait Tags + Rarity Statement + One-Liner + Radar Chart + Persona Analysis + Blurred Lock
+7    CTA Buttons    Primary: Share to Unlock / Secondary: Sign Up / Corner radius: 12px
+8    About Us Card    MYLS brand description card below CTA buttons
+9    Footer    Privacy Policy, Powered by MYLS
 4.2 Detailed Module Design
 4.2.1 Hero Section
 Headline: Decode Your New Grad First Impression
@@ -130,12 +129,12 @@ Answer this in one or two sentences: Describe yourself in three words, and tell 
 
 Interaction Flow:
 
-Step	Action	UI Feedback
-1	Request Microphone Permission	Modal: "MYLS AI needs mic access to analyze pace and confidence (Audio is NOT stored)."
-2	User taps "Start Recording"	Animated waveform + 30s countdown. Optional Prompt Card (collapsible).
-3	Recording	Live waveform. "Stop" button available.
-4	Upload & Analyze	Spinner: "AI is listening..." (< 3s).
-5	Feedback Preview	3 Tags appear: 🗣️ Pace (wpm) / 🎯 Keywords (Top 3) / 😌 Confidence Score (%)
+Step    Action    UI Feedback
+1    Request Microphone Permission    Modal: "MYLS AI needs mic access to analyze pace and confidence (Audio is NOT stored)."
+2    User taps "Start Recording"    Animated waveform + 30s countdown. Optional Prompt Card (collapsible).
+3    Recording    Live waveform. "Stop" button available.
+4    Upload & Analyze    Spinner: "AI is listening..." (< 3s).
+5    Feedback Preview    3 Tags appear: 🗣️ Pace (wpm) / 🎯 Keywords (Top 3) / 😌 Confidence Score (%)
 Exception Handling:
 
 Mic Denied: Fallback to a text input field. Show warning: "Text mode works, but you'll miss the full multimodal analysis."
@@ -169,60 +168,50 @@ Top Bar: Sticky header with brand name ("MYLS Interview") on the left and the cu
 
 A. Persona Section
 
-Labels (Dynamically assigned based on choices + voice confidence):
-
-🧸 The Dependable Intern (Reliable, but needs to show more initiative)
-
-⚡ The High-Potential Grinder (Ambitious, watch out for sounding scripted)
-
-📋 The Case Study Natural (Structured thinker, great for consulting)
-
-🎙️ The Coffee Chat Pro (Networking king/queen, risk of rambling)
+Labels (Dynamically assigned based on choices + voice confidence). Full list in Section 9.1.
 
 Character Trait Tags: Displayed inline directly below the persona name — no card wrapper. Tags appear as pill-shaped labels (e.g. ⚡ Ambitious, 📋 Over-prepared, 🔥 High-motor, 🎯 Focused).
 
-One-Liner Verdict:
+One-Liner: A short, punchy description of the persona. Source: Section 9.1 One-Liner table. Displayed in large quoted style below the Rarity Statement.
 
-"You come across as reliable and easy to work with. Pro tip: Always add one 'why' statement to show strategic thinking."
+B. Rarity Statement (Conditional — shown only for Rare / Very Rare / Ultra Rare personas)
 
-B. 5-Dimension Radar Chart
+Displayed as a badge beneath the Trait Tags, above the One-Liner.
+
+Copy template: *"STATISTICAL OUTLIER — Only X% of candidates match this profile."*
+
+Where X% is pulled from the persona's rarity value in Section 9.1. Not shown for Common (≥ 12%) or Uncommon (10–11%) personas.
+
+Rarity tiers:
+- Common (≥ 12%): not shown
+- Uncommon (10–11%): not shown
+- Rare (6–9%): shown
+- Very Rare (4–5%): shown
+- Ultra Rare (≤ 3%): shown with additional emphasis
+
+C. 5-Dimension Radar Chart
 
 An animated radar chart visualizing the user's final scored vector across all five dimensions: Act, Comm, Inter, Conf, Strat.
 
 - Axes labeled with full dimension names
-- Data source: averaged MCQ scores + voice adjustments (see Scoring Algorithm section)
+- Data source: averaged MCQ scores + voice adjustments (see Section 5)
 - Animates in on results reveal
 - Style: minimal, monochrome, consistent with overall light theme
 
-C. Persona Analysis Commentary — Hot Take
+D. Persona Analysis
 
-A punchy, persona-specific one-liner that captures the user's archetype in a direct, slightly uncomfortable tone. Displayed as a highlighted callout below the radar chart.
+5-line persona-specific commentary in direct, slightly uncomfortable narrator tone. Displayed in the "PERSONA ANALYSIS" card below the radar chart.
 
-Examples (see full table in section 9.1):
-- The High-Potential Grinder: *"You're on 2x. The interviewer is on 1x."*
-- The Case Study Natural: *"Impeccable structure. Zero vibes."*
-- The Wild Card: *"Could be an offer. Could be a meme."*
+Full per-persona copy (EN + 中文) in Section 9.7.
 
-D. Rarity Statement (Conditional — shown only for Rare / Very Rare / Ultra Rare personas)
-
-Displayed as a small badge or inline callout beneath the Hot Take.
-
-Copy template: *"This personality type is a statistical outlier. Only X% of New Grads shows your exact trait blend."*
-
-Where X% is pulled from the persona's rarity value in section 9.1. Not shown for Common personas (≥ 12%).
-
-Rarity tiers:
-- Common (≥ 12%): no rarity statement shown
-- Uncommon (10–11%): no rarity statement shown
-- Rare (6–9%): rarity statement shown
-- Very Rare (4–5%): rarity statement shown
-- Ultra Rare (≤ 3%): rarity statement shown with additional emphasis
+Examples:
+- The High-Potential Grinder: *"You're driven and always prepared. You've put in more work than most. But it feels heavy. Like you're trying to prove everything at once. Ambition is clear. Focus is not."*
 
 E. AI Recruiter's Lens
 
 > **Status:** Currently hidden on the results page (`display:none`). Card is populated in the data layer but not visible to users. Reserved for future activation.
 
-A single highlighted callout card showing the AI recruiter's contextual perspective on the user (distinct from the Hot Take, which is persona-fixed; the Lens can be dynamically inflected by voice score).
+A single highlighted callout card showing the AI recruiter's contextual perspective on the user (distinct from the Persona Analysis, which is persona-fixed; the Lens can be dynamically inflected by voice score).
 
 Example: "High motor, but slow down. Breathe."
 
@@ -247,10 +236,10 @@ Overlay Text:
 Tap below to share and claim your free toolkit."
 
 4.2.7 CTA Buttons
-Button Type	Copy	Action
-Primary (Large)	Invite a Friend & Unlock My Free Toolkit	Trigger native share sheet (iMessage, LinkedIn, Instagram, Snapchat)
-Secondary (Ghost)	View Detail Analysis	Navigate to Unlock Page
-Text Link	*Ready to ace the real thing? 100+ roles. 30,000+ prepared.* →	Redirect to MYLS Interview Sign Up
+Button Type    Copy    Action
+Primary (Large)    Invite a Friend & Unlock My Free Toolkit    Trigger native share sheet (iMessage, LinkedIn, Instagram, Snapchat)
+Secondary (Ghost)    View Detail Analysis    Navigate to Unlock Page
+Text Link    *Ready to ace the real thing? 100+ roles. 30,000+ prepared.* →    Redirect to MYLS Interview Sign Up
 
 Design spec: All CTA buttons use corner radius of 12px (not pill/full-round).
 
@@ -475,7 +464,7 @@ Applied on top of the MCQ average to produce the final 5D vector before persona 
 
 ### 5.5 Matching Logic
 
-1. Compute user's final (Act, Comm, Inter, Conf, Strat) vector = MCQ average + voice adjustments + Industry Nudge + Year Modifier (see section 6.5).
+1. Compute user's final (Act, Comm, Inter, Conf, Strat) vector = MCQ average + voice adjustments + Industry Nudge + Year Modifier (see section 5.6).
 2. Calculate Euclidean distance to each persona's standard vector (section 5.4).
 3. Select the closest persona.
 4. If tie (distance delta < 5), use keyword frequency from voice transcript as tiebreaker.
@@ -483,7 +472,7 @@ Applied on top of the MCQ average to produce the final 5D vector before persona 
 
 ---
 
-### 6.5 Matching Logic — Cohort-Based Modifier (Updated)
+### 5.6 Cohort-Based Modifier
 
 在原有算法（MCQ + 语音 → 五维向量 → 欧氏距离 → 关键词决胜）的基础上，增加 Cohort Modifier。该调整不大幅修改向量，而是在距离相近时提供有意义的偏向，让结果更贴合现实职场人格分布。
 
@@ -495,7 +484,7 @@ Applied on top of the MCQ average to produce the final 5D vector before persona 
 
 ---
 
-#### 6.5.1 Industry Affinity Nudge
+#### 5.6.1 Industry Affinity Nudge
 
 各行业对某些维度有轻微偏好，作为**向量偏置**直接加到用户的计算向量上（计算欧氏距离之前应用）。偏置上限不超过 ±10，防止过度扭曲用户原本的选择。
 
@@ -510,7 +499,7 @@ Applied on top of the MCQ average to produce the final 5D vector before persona 
 
 ---
 
-#### 6.5.2 School Year Modifier
+#### 5.6.2 School Year Modifier
 
 不同年级在求职心态上存在系统性差异，通过微调 Confidence 和 Strategy 维度来体现。
 
@@ -522,7 +511,7 @@ Applied on top of the MCQ average to produce the final 5D vector before persona 
 
 ---
 
-#### 6.5.3 组合应用示例
+#### 5.6.3 组合应用示例
 
 一个 Senior 申请 Tech 的用户，原始 MCQ 向量 Strat = 60, Conf = 55：
 
@@ -533,7 +522,7 @@ Applied on top of the MCQ average to produce the final 5D vector before persona 
 ---
 
 6. Share & Virality Design (North America Context)
-5.1 Share Card Configuration
+6.1 Share Card Configuration
 Dynamic Share Copy Options (North America student tone):
 
 *"Just found out my 'New Grad Aura' and unlocked 3 personalized interview Qs + a video feedback sneak peek. Low-key helpful for fall recruiting szn 👀 [Link]"*
@@ -546,25 +535,25 @@ Share Image: Dynamically generated card with Persona Label + Radar Chart silhoue
 
 Link: UTM-tagged short link.
 
-5.2 Referral Loop
+6.2 Referral Loop
 User B lands on page via User A's link.
 
 System tracks UTM source. Optional: Show "You were invited by [Name] to compare results."
 
 6. Analytics & Tracking Requirements
-Event Name	Trigger	Parameters
-page_view	Landing page load	source, utm_params
-identity_selected	User picks year/industry	school_year, target_industry
-quiz_answer	MCQ selection	question_id, answer_id
-mic_permission	Permission prompt result	status (granted/denied)
-audio_recording_start	User clicks record	-
-audio_analysis_success	Analysis returns 200 OK	duration_sec, word_count
-audio_analysis_error	Analysis fails	error_code
-report_view	Results page rendered	persona_type, confidence_score
-share_click	Primary CTA click	-
-share_success	Share sheet interaction	channel (if detectable)
-content_unlocked	Blur removed	-
-signup_cta_click	Secondary link click	-
+Event Name    Trigger    Parameters
+page_view    Landing page load    source, utm_params
+identity_selected    User picks year/industry    school_year, target_industry
+quiz_answer    MCQ selection    question_id, answer_id
+mic_permission    Permission prompt result    status (granted/denied)
+audio_recording_start    User clicks record    -
+audio_analysis_success    Analysis returns 200 OK    duration_sec, word_count
+audio_analysis_error    Analysis fails    error_code
+report_view    Results page rendered    persona_type, confidence_score
+share_click    Primary CTA click    -
+share_success    Share sheet interaction    channel (if detectable)
+content_unlocked    Blur removed    -
+signup_cta_click    Secondary link click    -
 7. Technical & Non-Functional Requirements
 7.1 Compatibility
 H5 fully responsive. Tested on iOS Safari, Android Chrome, and in-app browsers (Instagram, LinkedIn, Discord).
@@ -584,19 +573,19 @@ Explicit consent copy: "Audio is processed in real-time and immediately discarde
 Compliance with FERPA (indirectly, since it's students) and standard US/Canada data privacy laws.
 
 8. Timeline & Prioritization
-Phase	Task	Priority	Est. Effort
-P0 (MVP)	Frontend flow: MCQs + Results logic + Blur/Lock state	Highest	3d
-P0 (MVP)	Microphone integration + Multimodal API connection	Highest	2d
-P1	Voice AI feedback preview UI (Unlock page)	High	1d
-P2	Dynamic OG image generation for sharing	Medium	1d
-P2	UTM tracking & referral logging	Medium	0.5d
-P3	AI Video Review static preview design	Low	0.5d
+Phase    Task    Priority    Est. Effort
+P0 (MVP)    Frontend flow: MCQs + Results logic + Blur/Lock state    Highest    3d
+P0 (MVP)    Microphone integration + Multimodal API connection    Highest    2d
+P1    Voice AI feedback preview UI (Unlock page)    High    1d
+P2    Dynamic OG image generation for sharing    Medium    1d
+P2    UTM tracking & referral logging    Medium    0.5d
+P3    AI Video Review static preview design    Low    0.5d
 
 9. Appendix: Persona Vector Configuration & Keyword Library
 
 ---
 
-### 9.1 20-Persona Library (Bilingual — with Rarity & Hot Takes)
+### 9.1 20-Persona Library (Bilingual — with Rarity)
 
 Persona is assigned via Euclidean distance matching against the 5D vectors in section 5.4. Rarity percentages reflect expected distribution across test-takers based on the 5D vector space; thresholds will be calibrated post-launch from live data.
 
@@ -625,9 +614,9 @@ Persona is assigned via Euclidean distance matching against the 5D vectors in se
 | 19 | The Calm in the Storm | 情绪稳定如死狗 | 6% (Rare) | See section 9.7 |
 | 20 | The Visionary | 大气层玩家 | 4% (Very Rare) | See section 9.7 |
 
-> Full Persona Analysis copy (EN + 中文, 5-line format) is in section 9.7.
+> Persona Analysis copy (EN + 中文, 5-line format) is in Section 9.7.
 
-> 5D vectors for matching are in section 5.4. Hot Takes are shown on the results page as Persona Analysis Commentary (section 4.2.6-C).
+> 5D vectors for matching are in Section 5.4. Persona Analysis is shown on the results page (Section 4.2.6-D).
 
 **One-Liner Copy — Results Page Display (EN + 中文)**
 
@@ -687,19 +676,7 @@ When two personas are within close Euclidean distance, voice keyword hits serve 
 
 ### 9.3 Voice Analysis → Dimension Adjustment Rules
 
-See section 5.3 for the full voice adjustment table used in scoring. Summary for reference:
-
-| Voice Metric | Threshold | Dimension Effect | Adjustment Range |
-|-------------|-----------|-----------------|-----------------|
-| Speech Rate (WPM) | > 160 | Comm +10, Conf +5 | ±5–15 |
-| | < 110 | Comm −10, Conf −5 | |
-| Filler Word Rate (%) | > 8% | Conf −15, Strat −10 | ±10–20 |
-| | < 3% | Conf +5, Strat +10 | |
-| Keyword Match | High-Strat words ("first/second/finally", STAR terms) | Strat +5–10 | Contextual |
-| | Low-Strat words ("just", "whatever", "I guess") | Strat −5–10 | Contextual |
-| | Any persona keyword (see 9.2) | +5–10 to corresponding Act/Comm/Inter dimension | Directional |
-| AI Confidence Score | 0–100 | Weighted 7:3 with MCQ Conf → final Conf value | — |
-| STAR Structure Detected | Pattern identified | Strat +15 | Binary trigger |
+See Section 5.3 for the full voice adjustment table. This section is intentionally kept as a reference pointer to avoid duplication.
 
 ---
 
