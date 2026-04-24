@@ -72,9 +72,9 @@ graph TD
 9    Footer    Privacy Policy, Powered by MYLS
 4.2 Detailed Module Design
 4.2.1 Hero Section
-Headline: Decode Your New Grad First Impression
+Headline: How do recruiters see you?
 
-Subhead: What kind of potential do recruiters see in you?
+Subhead: Your persona, your blind spots, your voice.
 
 Visual: Blurred screenshot of MYLS video interface (a student speaking to camera).
 
@@ -1123,11 +1123,11 @@ Shown on the Results page in the "Persona Analysis" card. Format: 5 short lines 
 **1. The Dependable Intern** *(小组作业の神)*
 
 🇺🇸
-"You get things done quietly and reliably.
-People trust you to pick up what others drop.
-But in interviews, that doesn't show.
-You talk about the team, not your impact.
-You carry the work. You don't carry the story."
+"You did all the work, but someone else took all the credit.
+But others and the interviewers aren't your teammates!
+They have no idea how much you carried behind the scenes.
+Yet when you speak, it's always 'we,'
+making you sound like an outsider reporting on the team rather than someone who actually drove the work."
 
 🇨🇳 活你都干了，但话全让别人说了。面试官又不是你组员，不知道你背后扛了多少。你一张嘴就是"我们"，听起来像个旁观者在替团队汇报。
 
@@ -1136,9 +1136,7 @@ You carry the work. You don't carry the story."
 **2. The High‑Potential Grinder** *(预制卷王)*
 
 🇺🇸
-"You're driven and always prepared.
-You've put in more work than most.
-But it feels heavy.
+"You prepared so intensely that every sentence sounds like you've rehearsed it ten times.
 Like you're trying to prove everything at once.
 Ambition is clear. Focus is not."
 
@@ -1149,11 +1147,10 @@ Ambition is clear. Focus is not."
 **3. The Case Study Natural** *(AI 的嘴替)*
 
 🇺🇸
-"You think in structure and logic.
-Breaking down problems feels natural.
-But interviews are not just frameworks.
-They are about real experiences.
-You organize well. You don't always personalize."
+"Your answers are airtight, with layers of structure stacked neatly on top of each other.
+But they're so polished that they feel almost impersonal.
+The interviewer sees that you're smart,
+but isn't sure whether working with you would feel exhausting."
 
 🇨🇳 你的回答滴水不漏，框架一层套一层。但太工整了，工整到没人味儿。面试官觉得你聪明，但不确定跟你共事会不会心累。
 
@@ -1163,10 +1160,10 @@ You organize well. You don't always personalize."
 
 🇺🇸
 "You connect easily with people.
-You know how to keep conversations flowing.
-But interviews go deeper than that.
-Connection alone is not enough.
-People like you. They don't remember your impact."
+You can make someone feel like an old friend in just three minutes.
+But when the conversation gets too lively, it's easy to lose track of the point.
+The interviewer likes your personality,
+but afterward, they can't clearly remember what you can actually do."
 
 🇨🇳 你特别会聊，三分钟就能让人觉得是老朋友。但聊嗨了容易忘了正事。面试官喜欢你的性格，回头想想，你具体能干什么活，ta其实没记住。
 
@@ -1175,11 +1172,9 @@ People like you. They don't remember your impact."
 **5. The Silent Sniper** *(潜水区大佬)*
 
 🇺🇸
-"You don't speak much.
-But your work delivers.
-The problem is interviews don't see your work.
-They only hear what you say.
-If you don't say it, it didn't happen."
+"You're the kind of person who quietly gets big things done.
+But you keep yourself too hidden.
+If you don't say it, how will anyone know those impressive results were your work?"
 
 🇨🇳 你是那种闷声干大事的人，活交出来谁都服。但面试的时候你把自己藏得太深了，你不说，人家怎么知道那些厉害的东西是你搞出来的。
 
@@ -1227,11 +1222,10 @@ It sounds good. It proves less."
 **9. The Data Whisperer** *(Excel 成精)*
 
 🇺🇸
-"You rely on numbers and facts.
-You trust data to carry your answers.
-But interviews are not spreadsheets.
-People want context and judgment.
-You show results. You don't show thinking."
+"You genuinely love numbers — every conclusion has to be backed by data.
+But the interviewer isn't looking for a dashboard; they want your judgment.
+If you just present the results without explaining what they actually mean,
+they'll keep nodding along while quietly accumulating more and more questions."
 
 🇨🇳 对数字是真爱，每个结论都要有数据撑腰。但面试官要的不是看板，是你的判断。你光给结果，不说这个结果到底意味着什么，ta就只能一直点头，心里问号越攒越多。
 
@@ -1253,11 +1247,11 @@ You feel supportive. Not decisive."
 **11. The Hustler** *(斜杠永动机)*
 
 🇺🇸
-"You're always building something.
-You move fast and take initiative.
-But it can feel scattered.
-Like nothing fully lands.
-You do a lot. You don't always connect it."
+"You've worked on a ton of things. Your résumé is packed to the brim.
+But after hearing you, the interviewer feels a bit overwhelmed.
+It sounds like you've touched everything, but haven't gone deep on anything.
+You've done so much that it's hard to find the throughline:
+what are you actually best at?"
 
 🇨🇳 折腾了一大堆东西，简历丰富到挤不下。但面试官听完有点晕，感觉你什么都碰过，但什么都还没沉下去。你做了太多，反而让人找不到主线：你到底最擅长什么？
 
@@ -1266,11 +1260,11 @@ You do a lot. You don't always connect it."
 **12. The Technical Purist** *(赛博老实人)*
 
 🇺🇸
-"Your strength is clear.
-You know your craft deeply.
-But behavioral questions slow you down.
-You struggle to translate work into stories.
-You can do it. You just don't say it well."
+"Your code is beautifully written, your work is perfectly done,
+but the moment you're asked, 'How do you handle team conflict?' you freeze.
+Tech is your comfort zone,
+but interviews aren't just about technical skills.
+You also need to translate those experiences into human terms."
 
 🇨🇳 代码写得那叫一个漂亮，但一被问到"你怎么处理团队冲突"，你就卡壳了。技术是你舒适区，可面试不只考技术，你还得把那些经历翻译成人话。
 
@@ -1331,11 +1325,11 @@ You sound unsure. Even when you're right."
 **17. The "I Can Fix It"** *(救火队长)*
 
 🇺🇸
-"You step in and solve problems fast.
-You take ownership without waiting.
-But you skip the explanation.
-You jump straight to action.
-You fix things. You don't explain how."
+"When you run into a problem, you charge straight in and get it done — that's impressive!
+But once it's done, you forget to explain how you were thinking,
+skipping the most critical step.
+The interviewer only sees the result,
+not the judgment and decisions that went on in your head along the way."
 
 🇨🇳 碰到问题冲上去就是干，这点很猛。但你干完忘了告诉别人你是怎么想的，中间省略了最关键的一步。面试官只看到了结果，没看到你的脑子在中间做了多少判断。
 
@@ -1370,11 +1364,10 @@ You feel stable. Not impactful."
 **20. The Visionary** *(大气层玩家)*
 
 🇺🇸
-"You think in big pictures and long-term impact.
-That's a strength.
-But in interviews, it creates a gap.
-You jump to what it means instead of what you've done.
-You talk about intent, not proof."
+"You talk about five-year plans and industry shifts — big-picture thinking all the way.
+But the interviewer first wants to know what you can do starting this week.
+Don't stay up in the clouds,
+show them where your feet hit the ground."
 
 🇨🇳 聊的都是五年计划、行业变革，格局很大。但面试官想先知道这周你上手能干嘛。你别一直飘在云里，先告诉ta你落地的那一刻脚在哪。
 
