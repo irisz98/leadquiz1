@@ -72,7 +72,7 @@ graph TD
 9    Footer    Privacy Policy, Powered by MYLS
 4.2 Detailed Module Design
 4.2.1 Hero Section
-Headline: How do recruiters see you?
+Headline: What Recruiters Think of You
 
 Subhead: Your persona, your blind spots, your voice.
 
