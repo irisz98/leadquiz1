@@ -310,6 +310,7 @@
       display: flex; align-items: center; justify-content: center;
     }
     .avatar-circle svg { width: 48px; height: 48px; }
+    .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
     .persona-eyebrow-new { font-size: 12px; color: var(--text-3); margin-bottom: 5px; }
     .persona-name-new { font-family: 'Playfair Display', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; color: var(--text-1); }
 
@@ -1014,6 +1015,29 @@
 
   const SHOW_RARITY = new Set(['rare','very-rare','ultra-rare']);
 
+  const PERSONA_IMGS = {
+    1:  'images/The dependent Intern.png',
+    2:  'images/The High-Potential Grinder.png',
+    3:  'images/The Case Study Natural.png',
+    4:  'images/The Coffee Chat Pro.png',
+    5:  'images/The Silent Sniper.png',
+    6:  'images/The People Pleaser.png',
+    7:  'images/The Over-Prepared Overthinker.png',
+    8:  'images/The Storyteller.png',
+    9:  'images/The Data Whisperer.png',
+    10: 'images/The Empathy Anchor.png',
+    11: 'images/The Hustler.png',
+    12: 'images/The Technical Purist.png',
+    13: 'images/The Charmer.png',
+    14: 'images/The Rule Follower.png',
+    15: 'images/The Wild Card.png',
+    16: 'images/The Imposter Syndrome Warrior.png',
+    17: 'images/The I Can Fix It.png',
+    18: 'images/The Curious Cat.png',
+    19: 'images/The Calm in the Storm.png',
+    20: 'images/The Visionary.png',
+  };
+
   // ── WORKPLACE HABITS DATA ─────────────────────────────────────────────────
   const WORKPLACE_HABITS = {
     1: {
@@ -1286,6 +1310,12 @@
     const persona = matchPersona(vec);
     state.vector = vec;
     state.persona = persona;
+
+    const avatarEl = document.querySelector('.avatar-circle');
+    const imgSrc = PERSONA_IMGS[persona.id];
+    if (imgSrc) {
+      avatarEl.innerHTML = `<img src="${imgSrc}" alt="${persona.en}">`;
+    }
 
     document.getElementById('result-persona-name').textContent = persona.en;
     document.getElementById('result-tags-row').innerHTML = persona.tags.map(t => `<span class="ptag">${t}</span>`).join('');
