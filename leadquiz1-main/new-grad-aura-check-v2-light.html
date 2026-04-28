@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>New Grad Aura Check · MYLS Interview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    :root {
+      --bg:         #F8F7F5;
+      --surface:    #FFFFFF;
+      --elevated:   #F5F5F5;
+      --text-1:     #19181A;
+      --text-2:     #65635F;
+      --text-3:     #9B9895;
+      --text-4:     #C4C2BE;
+      --border:     #E5E3DF;
+      --border-mid: #D3D1CD;
+      --sel-bg:     #19181A;
+      --sel-text:   #FFFFFF;
+      --red:        #E8524A;
+      --r-sm:   6px;
+      --r-md:   12px;
+      --r-lg:   16px;
+      --r-pill: 999px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    #app {
+      width: 100%; max-width: 430px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      background: var(--surface);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    [data-screen] { display: none; flex-direction: column; min-height: 100vh; }
+    [data-screen].active { display: flex; animation: screenIn 0.22s ease-out; }
+    @keyframes screenIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px 8px;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── NAV BAR ── */
+    .nav-bar {
+      display: flex; align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0; position: relative; min-height: 52px;
+    }
+    .nav-back {
+      width: 32px; height: 32px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px; color: var(--text-1);
+      font-family: 'DM Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0; z-index: 1; transition: background 0.12s;
+    }
+    .nav-back:active { background: var(--elevated); }
+    .nav-center {
+      position: absolute; left: 0; right: 0; text-align: center;
+      font-size: 13px; font-weight: 600; color: var(--text-2); pointer-events: none;
+    }
+    .nav-title-center {
+      position: absolute; left: 0; right: 0; text-align: center;
+      font-size: 14px; font-weight: 700; color: var(--text-1); pointer-events: none;
+    }
+
+    /* ── PROGRESS ── */
+    .progress-track-wrap { padding: 0 20px; }
+    .progress-track { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--sel-bg); border-radius: 2px; transition: width 0.3s ease-out; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: var(--sel-bg); color: #fff; border: none;
+      padding: 15px 0; border-radius: 12px;
+      font-size: 15px; font-weight: 700; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; width: 100%;
+      transition: opacity 0.15s, transform 0.15s;
+      -webkit-user-select: none; user-select: none;
+    }
+    .btn-primary:disabled { background: var(--elevated); color: var(--text-3); pointer-events: none; }
+    .btn-primary:hover { opacity: 0.86; }
+    .btn-primary:active { transform: scale(0.98); opacity: 0.82; }
+
+    .btn-ghost {
+      background: none; border: 1.5px solid var(--border-mid); color: var(--text-1);
+      padding: 14px 0; border-radius: 12px;
+      font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; width: 100%;
+      transition: border-color 0.15s, opacity 0.15s;
+      -webkit-user-select: none; user-select: none;
+    }
+    .btn-ghost:hover { border-color: var(--text-2); }
+    .btn-ghost:active { opacity: 0.7; }
+
+    .btn-link {
+      background: none; border: none; cursor: pointer;
+      font-size: 12px; font-weight: 500; color: var(--text-3);
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: underline; text-underline-offset: 2px;
+      padding: 6px 0; display: block; width: 100%; text-align: center;
+      transition: color 0.15s;
+    }
+    .btn-link:hover { color: var(--text-2); }
+
+    /* ══════════════════════════════
+       SCREEN 1 — HERO
+    ══════════════════════════════ */
+    [data-screen="hero"] {
+      align-items: center; justify-content: flex-end;
+      padding-bottom: 48px; position: relative; overflow: hidden;
+    }
+    .hero-rings { position: absolute; top: 28%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .hero-ring { position: absolute; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .hr1 { width: 160px; height: 160px; border: 1px solid rgba(25,24,26,0.06); }
+    .hr2 { width: 280px; height: 280px; border: 1px solid rgba(25,24,26,0.04); }
+    .hr3 { width: 420px; height: 420px; border: 1px solid rgba(25,24,26,0.025); }
+    .hero-icon {
+      position: absolute; top: 28%; left: 50%; transform: translate(-50%, -50%);
+      width: 60px; height: 60px;
+      background: var(--elevated); border-radius: 14px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; padding: 0 24px; width: 100%; }
+    .hero-eyebrow {
+      display: inline-flex;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+      color: var(--text-2); background: var(--elevated); border: 1px solid var(--border);
+      border-radius: var(--r-pill); padding: 4px 10px; margin-bottom: 18px;
+    }
+    .hero-h1 { font-size: 30px; font-weight: 800; line-height: 1.1; letter-spacing: -0.6px; color: var(--text-1); margin-bottom: 12px; }
+    .hero-sub { font-size: 14px; color: var(--text-2); line-height: 1.65; margin-bottom: 28px; max-width: 300px; }
+    .hero-pills { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 28px; }
+    .hero-pill { font-size: 11px; font-weight: 600; color: var(--text-2); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 5px 11px; }
+    .hero-privacy { text-align: center; font-size: 10px; color: var(--text-4); margin-top: 12px; }
+
+    /* ══════════════════════════════
+       SCREEN 2 — IDENTITY
+    ══════════════════════════════ */
+    [data-screen="identity"] { padding-bottom: 32px; }
+    .id-body { padding: 24px 20px 0; }
+    .id-h2 { font-size: 22px; font-weight: 800; line-height: 1.2; color: var(--text-1); margin-bottom: 8px; }
+    .id-sub { font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 28px; }
+    .section-label { font-size: 11px; letter-spacing: 0.2px; color: var(--text-3); font-weight: 600; margin-bottom: 10px; }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+    .tag {
+      padding: 9px 15px; border-radius: var(--r-pill);
+      font-size: 13px; font-weight: 500;
+      border: 1.5px solid var(--border); color: var(--text-2);
+      background: var(--surface); cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: background 0.13s, border-color 0.13s, color 0.13s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tag.sel { background: var(--sel-bg); border-color: var(--sel-bg); color: var(--sel-text); }
+    .id-footer { padding: 0 20px; margin-top: auto; }
+    .id-hint { text-align: center; margin-top: 10px; font-size: 10px; color: var(--text-4); }
+
+    /* ══════════════════════════════
+       SCREENS 3–5 — MCQ
+    ══════════════════════════════ */
+    [data-screen="mcq"] { padding-bottom: 20px; }
+    .mcq-context-pill {
+      margin: 16px 20px 0;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--elevated); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 10px 14px;
+    }
+    .mcq-ctx-icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
+    .mcq-ctx-text { font-size: 12px; color: var(--text-3); font-style: italic; }
+    .mcq-header { padding: 20px 20px 14px; }
+    .mcq-category { font-size: 10px; font-weight: 700; letter-spacing: 0.4px; color: var(--text-3); text-transform: uppercase; margin-bottom: 10px; }
+    .mcq-question { font-size: 18px; font-weight: 700; color: var(--text-1); line-height: 1.4; }
+    .mcq-question em { font-style: normal; color: var(--text-2); font-weight: 500; font-size: 16px; }
+    .mcq-options { padding: 0 20px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .mcq-opt {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 14px; border: 1.5px solid var(--border); border-radius: var(--r-md);
+      background: var(--surface); cursor: pointer;
+      transition: background 0.13s, border-color 0.13s, opacity 0.18s;
+      -webkit-tap-highlight-color: transparent;
+      text-align: left; width: 100%; font-family: 'DM Sans', sans-serif;
+    }
+    .mcq-opt:active { opacity: 0.75; }
+    .mcq-opt.selected { background: var(--sel-bg); border-color: var(--sel-bg); }
+    .mcq-opt.dim { opacity: 0.3; }
+    .opt-badge {
+      width: 24px; height: 24px; border-radius: 6px; flex-shrink: 0; margin-top: 1px;
+      border: 1.5px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: var(--text-3);
+      transition: background 0.13s, border-color 0.13s, color 0.13s;
+    }
+    .mcq-opt.selected .opt-badge { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); color: #fff; }
+    .opt-text { font-size: 13px; color: var(--text-2); line-height: 1.5; padding-top: 3px; }
+    .mcq-opt.selected .opt-text { color: #fff; }
+    .mcq-recorded { margin: 14px 20px 0; font-size: 11px; font-weight: 600; color: var(--text-2); min-height: 16px; }
+
+    /* ══════════════════════════════
+       SCREEN 6 — VOICE
+    ══════════════════════════════ */
+    [data-screen="voice"] { padding-bottom: 20px; }
+    .voice-body { padding: 24px 20px 0; }
+    .voice-h2 { font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+    .voice-sub { font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+    .prompt-card { margin: 0 20px 18px; background: var(--elevated); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 15px 17px; }
+    .prompt-label { font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-3); font-weight: 700; margin-bottom: 8px; }
+    .prompt-text { font-size: 13px; color: var(--text-2); line-height: 1.65; font-style: italic; }
+    .prompt-text strong { font-style: normal; color: var(--text-1); font-weight: 700; }
+    .wave-area {
+      margin: 0 20px 18px; background: var(--elevated); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .waveform { display: flex; align-items: center; justify-content: center; gap: 3px; height: 40px; width: 100%; }
+    .wave-bar { width: 3px; border-radius: 3px; background: var(--text-2); opacity: 0.35; }
+    .wave-bar.on { animation: wavePulse 0.6s ease-in-out infinite alternate; }
+    .wave-bar:nth-child(even).on { animation-direction: alternate-reverse; }
+    @keyframes wavePulse {
+      from { opacity: 0.2; transform: scaleY(0.4); }
+      to   { opacity: 0.8; transform: scaleY(1); }
+    }
+    .voice-timer { font-size: 13px; font-weight: 700; color: var(--text-3); letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+    .voice-timer span { color: var(--text-1); }
+    .record-area { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 0 20px 20px; margin-top: auto; }
+    .record-btn {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--red); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 8px rgba(232,82,74,0.09), 0 4px 18px rgba(232,82,74,0.2);
+      transition: transform 0.15s; -webkit-tap-highlight-color: transparent;
+    }
+    .record-btn:active { transform: scale(0.92); }
+    .rec-icon { width: 20px; height: 20px; border-radius: 5px; background: #fff; transition: border-radius 0.2s, width 0.2s, height 0.2s; }
+    .record-btn.recording .rec-icon { border-radius: 50%; width: 17px; height: 17px; }
+    .record-hint { font-size: 11px; color: var(--text-3); }
+    .skip-link { text-align: center; padding-bottom: 20px; font-size: 11px; color: var(--text-4); text-decoration: underline; cursor: pointer; }
+
+    /* ══════════════════════════════
+       SCREEN 7 — LOADER
+    ══════════════════════════════ */
+    [data-screen="loader"] { align-items: center; justify-content: center; padding: 32px 28px; text-align: center; position: relative; }
+    .loader-radar { position: relative; width: 160px; height: 160px; margin-bottom: 32px; }
+    .radar-ring { position: absolute; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+    .rr1 { width: 60px;  height: 60px;  border: 1px solid rgba(25,24,26,0.10); }
+    .rr2 { width: 100px; height: 100px; border: 1px solid rgba(25,24,26,0.07); }
+    .rr3 { width: 140px; height: 140px; border: 1px solid rgba(25,24,26,0.045); }
+    .radar-axis { position: absolute; height: 1px; background: rgba(25,24,26,0.07); top: 50%; left: 50%; transform-origin: 0% 50%; }
+    .radar-sweep {
+      position: absolute; width: 50%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--text-1));
+      top: 50%; left: 50%; transform-origin: 0% 50%;
+      animation: sweep 2s linear infinite;
+    }
+    .radar-sweep::after { content: ''; position: absolute; right: 0; top: -2px; width: 5px; height: 5px; border-radius: 50%; background: var(--text-1); }
+    @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .loader-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+    .loader-copy { font-size: 15px; font-weight: 700; color: var(--text-1); line-height: 1.5; min-height: 48px; max-width: 260px; transition: opacity 0.3s ease; }
+    .loader-dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+    .loader-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+    .loader-dot.on { background: var(--text-1); }
+
+    /* ══════════════════════════════
+       SCREEN 8 — RESULTS (new style)
+    ══════════════════════════════ */
+    [data-screen="results"] { padding: 0; overflow-y: auto; height: auto; min-height: 100vh; }
+
+    .results-topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      flex-shrink: 0; position: sticky; top: 0; z-index: 100; background: var(--surface);
+    }
+    .results-topbar-brand { font-family: 'Playfair Display', sans-serif; font-weight: 800; font-size: 13px; color: var(--text-1); letter-spacing: 0.04em; }
+    .results-topbar-label { font-size: 11px; color: var(--text-3); font-weight: 500; }
+
+    .results-wrap { padding: 0 16px 36px; display: flex; flex-direction: column; gap: 12px; }
+
+    .persona-hero { text-align: center; padding: 28px 8px 4px; }
+    .avatar-circle {
+      width: 88px; height: 88px; border-radius: 50%;
+      background: var(--elevated); border: 1.5px solid var(--border);
+      margin: 0 auto 14px; overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .avatar-circle svg { width: 48px; height: 48px; }
+    .persona-eyebrow-new { font-size: 12px; color: var(--text-3); margin-bottom: 5px; }
+    .persona-name-new { font-family: 'Playfair Display', sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; color: var(--text-1); }
+
+    .one-liner-card { background: #F5F5F5; border-radius: 18px; padding: 20px 22px; text-align: center; }
+    .one-liner-text { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text-1); line-height: 1.5; font-style: italic; }
+    .one-liner-text::before { content: '\201C'; }
+    .one-liner-text::after  { content: '\201D'; }
+
+    .r-card { background: #F5F5F5; border-radius: 18px; padding: 20px; }
+    .r-card-label {
+      font-family: 'Playfair Display', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--text-3); text-transform: uppercase; margin-bottom: 14px;
+    }
+
+    .tags-card { background: #F5F5F5; border-radius: 18px; padding: 20px; }
+    .tags-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .ptag {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 13px; font-weight: 500; color: var(--text-2);
+    }
+
+    .rt-intro-new { font-size: 13px; color: var(--text-2); margin-bottom: 14px; }
+    .rt-list-new { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .rt-list-new li {
+      font-size: 13px; color: var(--text-2);
+      display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 14px;
+    }
+    .rt-check-new { color: var(--text-1); flex-shrink: 0; font-weight: 700; }
+
+    .radar-svg-wrap-new { display: flex; justify-content: center; margin-top: 4px; }
+
+    .va-title-new { font-size: 14px; font-weight: 800; color: var(--text-1); margin-bottom: 14px; }
+    .va-pills-new { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .va-pill-new { padding: 5px 12px; border-radius: var(--r-pill); font-size: 12px; font-weight: 600; }
+    .va-pill-new.a { border: 1.5px solid var(--text-1); color: var(--text-1); }
+    .va-pill-new.b { border: 1.5px solid var(--border-mid); color: var(--text-2); }
+    .va-copy-new { font-size: 14px; color: var(--text-2); line-height: 1.9; }
+    .va-copy-new p { margin-bottom: 2px; }
+    .va-copy-new em { font-style: italic; color: var(--text-4); }
+
+    .lens-inner {
+      margin-top: 16px; padding: 14px 16px; text-align: center;
+      background: var(--surface); border: 1.5px solid var(--border-mid); border-radius: var(--r-md);
+    }
+    .lens-inner-label {
+      font-family: 'Playfair Display', sans-serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--text-3); text-transform: uppercase; margin-bottom: 8px;
+    }
+    .lens-quote-new { font-family: 'Playfair Display', sans-serif; font-size: 15px; font-weight: 700; line-height: 1.5; color: var(--text-1); }
+
+    .cta-section-new { display: flex; flex-direction: column; gap: 10px; }
+
+    /* ── RESULTS: RARITY BADGE ── */
+    .rarity-block { margin-top: 16px; text-align: center; }
+    .rarity-block-eyebrow {
+      display: block; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 3px;
+    }
+    .rarity-block-stat { font-size: 12px; color: var(--text-2); }
+
+    /* ── RESULTS: RADAR ── */
+    .result-radar-card { background: #F5F5F5; border-radius: 18px; padding: 20px; }
+    .r-fill   { opacity: 0; }
+    .r-stroke { opacity: 0; stroke-dasharray: 600; stroke-dashoffset: 600; }
+    .r-dot    { opacity: 0; }
+    [data-screen="results"].revealed .r-fill   { opacity: 1; transition: opacity 0.5s ease-out 0.85s; }
+    [data-screen="results"].revealed .r-stroke { opacity: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1s cubic-bezier(0.22,1,0.36,1) 0.35s, opacity 0.05s ease-out 0.35s; }
+    [data-screen="results"].revealed .r-dot    { animation: dotPop 0.28s cubic-bezier(0.22,1,0.36,1) 1.4s both; }
+
+    /* ── RESULTS: HOT TAKE ── */
+    .hot-take-card { background: #F5F5F5; border-radius: 18px; padding: 20px 22px; text-align: center; }
+    .hot-take-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 10px; }
+    .hot-take-text { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 300; line-height: 1.75; color: var(--text-1); white-space: pre-line; }
+
+    .lens-card {
+      background: #F5F5F5; border-radius: 18px; padding: 20px 22px; text-align: center;
+    }
+    .lens-card-label {
+      font-family: 'Playfair Display', serif; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; color: var(--text-3); text-transform: uppercase; margin-bottom: 10px;
+    }
+    .lens-card-quote {
+      font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700;
+      line-height: 1.5; color: var(--text-1);
+    }
+
+    .about-us-card {
+      background: #F5F5F5; border-radius: 18px; padding: 20px 22px;
+    }
+    .about-us-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-3); margin-bottom: 10px;
+    }
+    .about-us-text {
+      font-size: 13px; color: var(--text-2); line-height: 1.75;
+    }
+
+    /* ── RESULTS: WORKPLACE HABITS ── */
+    .workplace-card { background: #F5F5F5; border-radius: 18px; overflow: hidden; }
+    .workplace-teaser {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+    }
+    .workplace-teaser-left { display: flex; align-items: center; gap: 8px; }
+    .workplace-wicon { font-size: 15px; }
+    .workplace-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-1); }
+    .workplace-teaser-right { display: flex; align-items: center; gap: 8px; }
+    .workplace-hook { font-size: 12px; color: var(--text-3); }
+    .workplace-chevron { font-size: 17px; color: var(--text-3); transition: transform 0.2s ease; display: inline-block; line-height: 1; }
+    .workplace-card.open .workplace-chevron { transform: rotate(90deg); }
+    .workplace-content { padding: 0 20px 20px; display: none; }
+    .workplace-card.open .workplace-content { display: block; }
+    .workplace-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+    .workplace-tab {
+      flex: 1; padding: 8px 10px; border-radius: var(--r-pill);
+      font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; border: 1.5px solid var(--border-mid);
+      background: var(--surface); color: var(--text-2);
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .workplace-tab.active { background: var(--sel-bg); color: #fff; border-color: var(--sel-bg); }
+    .workplace-body { font-size: 13px; color: var(--text-2); line-height: 1.75; }
+    .workplace-body p { margin-bottom: 14px; }
+    .workplace-body p:last-child { margin-bottom: 0; }
+
+    .quiz-footer { padding: 10px 20px 28px; text-align: center; font-size: 10px; color: var(--text-4); line-height: 1.7; }
+
+    /* ══════════════════════════════
+       SCREEN 9 — UNLOCK (new style)
+    ══════════════════════════════ */
+    [data-screen="unlock"] { padding: 0; overflow-y: auto; height: auto; min-height: 100vh; }
+
+    .unlock-intro-text { padding: 18px 20px 20px; font-size: 13px; color: var(--text-2); line-height: 1.65; }
+    .unlock-intro-text strong { color: var(--text-1); }
+
+    .locked-cards { padding: 0 20px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+    .locked-q { background: var(--elevated); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 14px 16px; transition: filter 0.4s ease-out; }
+    .locked-q.blurred { filter: blur(5px); }
+    .locked-q-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-3); margin-bottom: 6px; }
+    .locked-q-text { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+
+    .lock-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.95) 28%);
+      border-radius: var(--r-lg);
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding: 20px 16px 8px; transition: opacity 0.3s ease-out;
+    }
+    .lock-overlay.hidden { opacity: 0; pointer-events: none; }
+    .lock-headline { font-size: 14px; font-weight: 700; color: var(--text-1); text-align: center; line-height: 1.45; margin-bottom: 16px; }
+    .lock-items { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px; }
+    .lock-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 14px; display: flex; align-items: flex-start; gap: 10px; }
+    .lock-item-num { font-size: 10px; font-weight: 800; color: var(--text-3); letter-spacing: 1px; flex-shrink: 0; padding-top: 2px; }
+    .lock-item-text { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+
+    .pre-share-section { padding: 16px 20px 28px; }
+    .pre-share-cta-wrap { display: flex; flex-direction: column; gap: 10px; }
+
+    .post-unlock { display: none; }
+    .post-unlock.visible { display: block; }
+
+    .ul-topbar { padding: 20px 20px 4px; }
+    .ul-topbar-eyebrow { font-size: 12px; color: var(--text-3); margin-bottom: 6px; }
+    .ul-topbar-h { font-family: 'Playfair Display', sans-serif; font-size: 24px; font-weight: 800; line-height: 1.15; color: var(--text-1); }
+
+    .ul-wrap { padding: 12px 16px 36px; display: flex; flex-direction: column; gap: 12px; }
+
+    .hire-if-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px; padding: 20px 22px; }
+    .hire-if-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 4px; }
+    .hire-if-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 800; color: var(--text-1); line-height: 1.25; margin-bottom: 16px; }
+    .hire-if-items { display: flex; flex-direction: column; gap: 10px; }
+    .hire-if-item { display: flex; gap: 10px; align-items: flex-start; }
+    .hire-if-box { width: 17px; height: 17px; border: 1.5px solid var(--border-mid); border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+    .hire-if-text { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+    .ul-scope-card { background: var(--elevated); border-radius: 18px; padding: 18px 20px; }
+    .ul-scope-title { font-family: 'Playfair Display', sans-serif; font-weight: 700; font-size: 16px; color: var(--text-1); display: block; margin-bottom: 4px; line-height: 1.3; }
+    .ul-scope-sub { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+    .role-match-card { background: var(--elevated); border-radius: 18px; padding: 20px 20px 18px; }
+    .role-match-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-1); margin-bottom: 6px; }
+    .role-match-sub { font-size: 13px; color: var(--text-2); line-height: 1.55; margin-bottom: 14px; }
+    .role-match-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .role-match-item { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 999px; padding: 10px 16px; font-size: 14px; font-weight: 600; color: var(--text-1); width: fit-content; }
+    .role-match-item .rm-emoji { font-size: 16px; line-height: 1; }
+    .role-match-available { font-size: 12px; color: var(--text-3); margin-bottom: 10px; }
+    .role-match-cta { font-size: 13px; font-weight: 600; color: var(--text-1); text-decoration: underline; cursor: pointer; }
+
+    .ul-q-card-new { background: var(--elevated); border-radius: 18px; padding: 20px; }
+    .ul-q-inner { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
+    .ul-q-inner p { font-size: 14px; font-weight: 500; line-height: 1.55; color: var(--text-1); }
+    .ul-generic-callout { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 6px; }
+    .ul-g-tag { font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .ul-g-title { font-family: 'Playfair Display', sans-serif; font-weight: 700; font-size: 15px; display: block; margin-bottom: 4px; color: var(--text-1); }
+    .ul-g-body { font-size: 13px; color: var(--text-2); line-height: 1.55; }
+
+    .ul-transition-new { font-style: italic; font-size: 13px; color: var(--text-2); line-height: 1.6; padding: 0 4px; }
+
+    .ul-fb-card { background: var(--elevated); border-radius: 18px; padding: 20px; }
+    .ul-transcript-new { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+    .ul-transcript-label-new { font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .ul-transcript-text-new { font-size: 14px; line-height: 1.75; color: var(--text-2); }
+    .ul-transcript-text-new mark { background: rgba(232,82,74,0.12); color: #b83228; border-radius: 3px; padding: 0 3px; font-style: italic; }
+    .ul-transcript-note { margin-top: 10px; font-size: 12px; color: var(--text-3); font-style: italic; }
+
+    .ul-fix-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px 16px; margin-bottom: 8px; }
+    .ul-fix-title { font-family: 'Playfair Display', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; color: var(--text-1); }
+    .ul-fix-body { font-size: 13px; color: var(--text-2); line-height: 1.55; margin-bottom: 8px; }
+    .ul-fix-tip { font-size: 13px; font-weight: 600; color: var(--text-1); }
+
+    .ul-fix-card-blur { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px 16px; margin-bottom: 8px; position: relative; overflow: hidden; }
+    .ul-fix-card-blur .blur-inner { filter: blur(5px); user-select: none; pointer-events: none; }
+    .ul-fix-card-blur .blur-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(238,236,234,0.55); }
+    .blur-lock {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: var(--text-2);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .ul-conv-card { background: var(--elevated); border-radius: 18px; padding: 22px 20px; }
+    .ul-conv-h { font-family: 'Playfair Display', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 6px; color: var(--text-1); }
+    .ul-conv-p { font-size: 13px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+    .ul-conv-cta { display: flex; flex-direction: column; gap: 10px; }
+    .ul-conv-sub { text-align: center; font-size: 11px; color: var(--text-4); line-height: 1.5; }
+
+    /* ══════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════ */
+    @keyframes revealUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pillPop {
+      from { opacity: 0; transform: scale(0.74); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes dotPop {
+      from { opacity: 0; transform: scale(0); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes flashOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes markGlow {
+      0%, 100% { background: rgba(232,82,74,0.12); }
+      55%      { background: rgba(232,82,74,0.28); }
+    }
+    @keyframes bannerPop {
+      from { opacity: 0; transform: scale(0.94) translateY(-10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    [data-screen="results"].revealed .persona-hero      { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.05s both; }
+    [data-screen="results"].revealed .one-liner-card    { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.12s both; }
+    [data-screen="results"].revealed .result-radar-card { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.20s both; }
+    [data-screen="results"].revealed .hot-take-card     { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.30s both; }
+    [data-screen="results"].revealed .lens-card         { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.38s both; }
+    [data-screen="results"].revealed .cta-section-new   { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.46s both; }
+    [data-screen="results"].revealed .about-us-card     { animation: revealUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.54s both; }
+
+    [data-screen="results"].revealed .ptag:nth-child(1) { animation: pillPop 0.38s cubic-bezier(0.22,1,0.36,1) 0.18s both; }
+    [data-screen="results"].revealed .ptag:nth-child(2) { animation: pillPop 0.38s cubic-bezier(0.22,1,0.36,1) 0.26s both; }
+    [data-screen="results"].revealed .ptag:nth-child(3) { animation: pillPop 0.38s cubic-bezier(0.22,1,0.36,1) 0.34s both; }
+    [data-screen="results"].revealed .ptag:nth-child(4) { animation: pillPop 0.38s cubic-bezier(0.22,1,0.36,1) 0.42s both; }
+
+
+    .post-unlock.visible .ul-topbar                    { animation: bannerPop 0.42s cubic-bezier(0.22,1,0.36,1) both; }
+    .post-unlock.visible .ul-wrap > *:nth-child(1)     { animation: revealUp 0.42s cubic-bezier(0.22,1,0.36,1) 0.08s both; }
+    .post-unlock.visible .ul-wrap > *:nth-child(2)     { animation: revealUp 0.42s cubic-bezier(0.22,1,0.36,1) 0.16s both; }
+    .post-unlock.visible .ul-wrap > *:nth-child(3)     { animation: revealUp 0.42s cubic-bezier(0.22,1,0.36,1) 0.24s both; }
+    .post-unlock.visible .ul-wrap > *:nth-child(4)     { animation: revealUp 0.42s cubic-bezier(0.22,1,0.36,1) 0.32s both; }
+    .post-unlock.visible .ul-wrap > *:nth-child(5)     { animation: revealUp 0.42s cubic-bezier(0.22,1,0.36,1) 0.40s both; }
+    .post-unlock.visible .ul-transcript-text-new mark  { animation: markGlow 2.8s ease-in-out 0.8s infinite; }
+
+    .tag, .mcq-opt, .record-btn, .btn-primary, .btn-ghost { -webkit-tap-highlight-color: transparent; }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ═══ SCREEN 1: HERO ═══ -->
+  <section data-screen="hero">
+    <div class="hero-rings">
+      <div class="hero-ring hr3"></div>
+      <div class="hero-ring hr2"></div>
+      <div class="hero-ring hr1"></div>
+    </div>
+    <div class="hero-icon">✨</div>
+    <div class="status-bar" style="position:absolute;top:0;left:0;right:0;z-index:3;">
+      <span style="font-weight:700;color:var(--text-1)">9:41</span>
+      <span style="color:var(--text-1)">●●●</span>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">New Grad Aura Check</div>
+      <h1 class="hero-h1">What Recruiters Think of You</h1>
+      <p class="hero-sub">Your persona, your blind spots, your voice.</p>
+      <div class="hero-pills">
+        <span class="hero-pill">60 seconds</span>
+        <span class="hero-pill">5 questions</span>
+        <span class="hero-pill">1 voice prompt</span>
+      </div>
+      <button class="btn-primary" id="btn_hero_start" onclick="trackButtonClick('btn_hero_start'); showScreen('identity')">Find Out Now →</button>
+      <p class="hero-privacy">No signup required · Audio is never stored</p>
+    </div>
+  </section>
+
+  <!-- ═══ SCREEN 2: IDENTITY ═══ -->
+  <section data-screen="identity">
+    <div class="nav-bar">
+      <button class="nav-back" onclick="showScreen('hero')">←</button>
+      <span class="nav-center">Step 1 / 7</span>
+    </div>
+    <div class="progress-track-wrap" style="padding:10px 20px 0">
+      <div class="progress-track"><div class="progress-fill" style="width:14%"></div></div>
+    </div>
+    <div class="id-body">
+      <h2 class="id-h2">Tell us about<br>yourself</h2>
+      <p class="id-sub">We'll personalize your questions based on your profile.</p>
+      <div class="section-label">I am a...</div>
+      <div class="tag-group" id="tg-year">
+        <button class="tag" onclick="selectTag('year','sophomore',this)">Sophomore / Junior</button>
+        <button class="tag" onclick="selectTag('year','senior',this)">Senior</button>
+        <button class="tag" onclick="selectTag('year','recent',this)">Recent Grad</button>
+      </div>
+      <div class="section-label">Target industry</div>
+      <div class="tag-group" id="tg-industry">
+        <button class="tag" onclick="selectTag('industry','tech',this)">Tech / Engineering</button>
+        <button class="tag" onclick="selectTag('industry','finance',this)">Finance / Consulting</button>
+        <button class="tag" onclick="selectTag('industry','marketing',this)">Marketing / Sales</button>
+        <button class="tag" onclick="selectTag('industry','healthcare',this)">Healthcare / Biotech</button>
+        <button class="tag" onclick="selectTag('industry','creative',this)">Creative / Design</button>
+        <button class="tag" onclick="selectTag('industry','other',this)">Other</button>
+      </div>
+    </div>
+    <div class="id-footer">
+      <button class="btn-primary" id="btn-continue" disabled onclick="showScreen('mcq')">Continue →</button>
+      <p class="id-hint">Questions adapt based on your selections</p>
+    </div>
+  </section>
+
+  <!-- ═══ SCREENS 3–5: MCQ ═══ -->
+  <section data-screen="mcq">
+    <div class="nav-bar">
+      <button class="nav-back" onclick="prevMcq()">←</button>
+      <span class="nav-center" id="mcq-nav-label">Step 2 / 5</span>
+    </div>
+    <div class="progress-track-wrap" style="padding:10px 20px 0">
+      <div class="progress-track"><div class="progress-fill mcq-progress" style="width:33%"></div></div>
+    </div>
+    <div class="mcq-context-pill">
+      <span class="mcq-ctx-icon">🎯</span>
+      <span class="mcq-ctx-text" id="mcq-ctx-label">Career scenario</span>
+    </div>
+    <div class="mcq-header">
+      <div class="mcq-category">Situational question</div>
+      <p class="mcq-question"></p>
+    </div>
+    <div class="mcq-options"></div>
+    <p class="mcq-recorded"></p>
+  </section>
+
+  <!-- ═══ SCREEN 6: VOICE ═══ -->
+  <section data-screen="voice">
+    <div class="nav-bar">
+      <button class="nav-back" onclick="showScreen('mcq')">←</button>
+      <span class="nav-center">Step 7 / 7</span>
+    </div>
+    <div class="progress-track-wrap" style="padding:10px 20px 0">
+      <div class="progress-track"><div class="progress-fill" style="width:86%"></div></div>
+    </div>
+    <div class="voice-body">
+      <h2 class="voice-h2">Let's hear<br>how you sound.</h2>
+      <p class="voice-sub">Answer in one or two sentences.</p>
+    </div>
+    <div class="prompt-card">
+      <div class="prompt-label">Your prompt</div>
+      <p class="prompt-text">Describe yourself in <strong>three words</strong> — and tell us why.</p>
+    </div>
+    <div class="wave-area">
+      <div class="waveform" id="waveform"></div>
+      <div class="voice-timer" id="voice-timer">0:00 / <span>0:30</span></div>
+    </div>
+    <div class="record-area">
+      <button class="record-btn" id="record-btn" onclick="toggleRecord()">
+        <div class="rec-icon"></div>
+      </button>
+      <span class="record-hint" id="record-hint">Tap to record</span>
+    </div>
+    <div class="skip-link" onclick="showScreen('loader')">Skip voice analysis →</div>
+  </section>
+
+  <!-- ═══ SCREEN 7: LOADER ═══ -->
+  <section data-screen="loader">
+    <div class="status-bar" style="position:absolute;top:0;left:0;right:0;z-index:3;">
+      <span style="font-weight:700;color:var(--text-1)">9:41</span>
+      <span style="color:var(--text-1)">●●●</span>
+    </div>
+    <div class="loader-radar">
+      <div class="radar-ring rr1"></div>
+      <div class="radar-ring rr2"></div>
+      <div class="radar-ring rr3"></div>
+      <div class="radar-axis" style="width:80px;transform:rotate(0deg)"></div>
+      <div class="radar-axis" style="width:80px;transform:rotate(72deg)"></div>
+      <div class="radar-axis" style="width:80px;transform:rotate(144deg)"></div>
+      <div class="radar-axis" style="width:80px;transform:rotate(216deg)"></div>
+      <div class="radar-axis" style="width:80px;transform:rotate(288deg)"></div>
+      <div class="radar-sweep"></div>
+    </div>
+    <div>
+      <div class="loader-eyebrow">Analyzing profile</div>
+      <p class="loader-copy" id="loader-copy">Benchmarking against 45,000+ New Grad JDs...</p>
+      <div class="loader-dots">
+        <div class="loader-dot on" id="ldot-0"></div>
+        <div class="loader-dot" id="ldot-1"></div>
+        <div class="loader-dot" id="ldot-2"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SCREEN 8: RESULTS ═══ -->
+  <section data-screen="results">
+    <div class="results-topbar">
+      <span class="results-topbar-brand">MYLS Interview</span>
+      <span class="results-topbar-label" id="result-date"></span>
+    </div>
+
+    <div class="results-wrap">
+
+      <div class="persona-hero">
+        <div class="avatar-circle">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="15" r="7" fill="var(--border-mid)"/>
+            <path d="M6 36c0-7.732 6.268-14 14-14s14 6.268 14 14" fill="var(--border-mid)"/>
+          </svg>
+        </div>
+        <p class="persona-eyebrow-new">You're:</p>
+        <h1 class="persona-name-new" id="result-persona-name">—</h1>
+        <div class="tags-row" id="result-tags-row" style="justify-content:center;margin-top:14px;"></div>
+        <div class="rarity-block" id="result-rarity" style="display:none">
+          <span class="rarity-block-eyebrow">Statistical Outlier</span>
+          <span class="rarity-block-stat" id="result-rarity-stat"></span>
+        </div>
+      </div>
+
+      <div class="one-liner-card">
+        <p class="one-liner-text" id="result-one-liner"></p>
+      </div>
+
+      <div class="result-radar-card">
+        <div class="r-card-label" style="color:var(--text-1);font-size:13px;">5-Dimension Profile</div>
+        <div class="radar-svg-wrap-new" id="result-radar-svg"></div>
+      </div>
+
+      <div class="hot-take-card">
+        <div class="hot-take-label">Persona Analysis</div>
+        <p class="hot-take-text" id="result-hot-take"></p>
+      </div>
+
+      <div class="lens-card" style="display:none">
+        <div class="lens-card-label">🕶️ AI Recruiter's Lens</div>
+        <p class="lens-card-quote" id="result-lens"></p>
+      </div>
+
+      <div class="cta-section-new">
+        <button class="btn-primary" id="btn_share_primary" onclick="trackButtonClick('btn_share_primary'); handleShareFromResults()">Send this to your friends 👀</button>
+        <button class="btn-ghost" id="btn_unlock_secondary" onclick="trackButtonClick('btn_unlock_secondary'); handleShareFromResults()">Would recruiters hire you?</button>
+      </div>
+
+      <div class="about-us-card">
+        <div class="about-us-label">About Us</div>
+        <p class="about-us-text">We're builders. We got obsessed with how AI is changing hiring so we built MYLS.
+30,000+ students have used it to find their footing, fix their blind spots, and walk into interviews with more confidence.</p>
+      </div>
+
+
+    </div>
+
+    <div class="quiz-footer">
+      Powered by MYLS Interview · <span style="text-decoration:underline;cursor:pointer">Privacy Policy</span><br>
+      Audio processed in real-time and immediately discarded. Nothing is stored.
+    </div>
+  </section>
+
+  <!-- ═══ SCREEN 9: UNLOCK ═══ -->
+  <section data-screen="unlock">
+    <div class="nav-bar">
+      <button class="nav-back" onclick="showScreen('results')">←</button>
+      <span class="nav-title-center">Your Personalized Prep Kit</span>
+    </div>
+
+    <div id="pre-unlock">
+      <p class="unlock-intro-text">
+        Based on your aura profile, MYLS generated <strong>3 high-probability interview questions</strong> tailored to you.
+      </p>
+      <div class="locked-cards">
+        <div class="locked-q blurred" id="lq-1">
+          <div class="locked-q-tag">Q 01</div>
+          <p class="locked-q-text">Tell me about a time you faced a conflict on a team and how you resolved it.</p>
+        </div>
+        <div class="locked-q blurred" id="lq-2">
+          <div class="locked-q-tag">Q 02</div>
+          <p class="locked-q-text">Why do you think you're a strong fit for this role given your background?</p>
+        </div>
+        <div class="locked-q blurred" id="lq-3">
+          <div class="locked-q-tag">Q 03</div>
+          <p class="locked-q-text">If we offered you the internship today, what would be your first priority in week one?</p>
+        </div>
+        <div class="lock-overlay" id="lock-overlay">
+          <p class="lock-headline">Your New Grad Aura is ready.<br>Share with a friend to instantly unlock:</p>
+          <div class="lock-items">
+            <div class="lock-item">
+              <span class="lock-item-num">01</span>
+              <span class="lock-item-text">3 Personalized Interview Questions (based on your voice + choices)</span>
+            </div>
+            <div class="lock-item">
+              <span class="lock-item-num">02</span>
+              <span class="lock-item-text">1 AI Video Feedback Preview (see exactly what MYLS coaches on)</span>
+            </div>
+            <div class="lock-item">
+              <span class="lock-item-num">03</span>
+              <span class="lock-item-text">The 'First 30 Days' Playbook (quick tips for your first internship month)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pre-share-section">
+        <div class="pre-share-cta-wrap">
+          <button class="btn-primary" onclick="handleShare()">Invite a Friend &amp; Unlock My Free Toolkit</button>
+          <button class="btn-link" onclick="window.open('#','_blank')">Ready to ace the real thing? 100+ roles. 30,000+ prepared. →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-unlock" id="post-unlock">
+      <div class="ul-topbar">
+        <p class="ul-topbar-eyebrow">🎉 Unlocked</p>
+        <h1 class="ul-topbar-h">Your Personalized<br>Prep Kit</h1>
+      </div>
+
+      <div class="ul-wrap">
+
+        <div class="hire-if-card">
+          <p class="hire-if-eyebrow" id="hire-if-persona-label"></p>
+          <p class="hire-if-title">I Will Hire You If…</p>
+          <div class="hire-if-items" id="hire-if-items"></div>
+        </div>
+
+        <div class="role-match-card">
+          <div class="role-match-title">How ready are you for these roles?</div>
+          <div class="role-match-sub">These roles match how you think and how you show up.</div>
+          <div class="role-match-list" id="role-match-list"></div>
+          <div class="role-match-available">All available on MYLS Interview 3.0.</div>
+          <div class="role-match-cta" id="btn_role_match_cta" onclick="trackButtonClick('btn_role_match_cta'); window.open('#','_blank')">See your readiness for 100+ roles →</div>
+        </div>
+
+        <div class="ul-fb-card">
+          <div class="r-card-label" style="color:var(--text-1);font-size:13px;">A glimpse of your MYLS 3.0 analysis</div>
+          <p style="font-size:12px;color:var(--text-3);margin-bottom:14px;">In a real session, every word gets analyzed</p>
+          <div class="ul-transcript-new">
+            <div class="ul-transcript-label-new">What you said:</div>
+            <p class="ul-transcript-text-new">"I'd say I'm driven, <mark>basically</mark> collaborative — <mark>basically what I mean is</mark> I like working with people and I'm pretty focused on getting things done, I think. And <mark>um</mark> resilient, because I've had to push through a lot of tough projects."</p>
+            <p class="ul-transcript-note">You started strong, but this is where things slipped a bit:</p>
+          </div>
+          <div class="r-card-label" style="margin-top:4px;">What to fix</div>
+          <div class="ul-fix-card">
+            <div class="ul-fix-title">You overused filler phrases</div>
+            <p class="ul-fix-body">Saying "basically what I mean is…" repeatedly makes you sound less confident than you actually are</p>
+            <div class="ul-fix-tip">👉 Try: pause instead of filling space</div>
+          </div>
+          <div class="ul-fix-card-blur">
+            <div class="blur-inner">
+              <div class="ul-fix-title">You repeated yourself</div>
+              <p class="ul-fix-body">Mentioning the same example twice makes your answer feel less structured</p>
+              <div class="ul-fix-tip">👉 Fix: say it once, then move forward</div>
+            </div>
+            <div class="blur-overlay"><span class="blur-lock">🔒 unlock in MYLS</span></div>
+          </div>
+        </div>
+
+        <div class="workplace-card" id="workplace-card">
+          <div class="workplace-teaser" onclick="toggleWorkplace()">
+            <div class="workplace-teaser-left">
+              <span class="workplace-wicon">🧩</span>
+              <span class="workplace-title">Workplace Habits</span>
+            </div>
+            <div class="workplace-teaser-right">
+              <span class="workplace-hook">How do you show up at work?</span>
+              <span class="workplace-chevron">›</span>
+            </div>
+          </div>
+          <div class="workplace-content" id="workplace-content">
+            <div class="workplace-tabs">
+              <button class="workplace-tab active" onclick="switchWorkplaceTab('manager',this)">👔 Manager's View</button>
+              <button class="workplace-tab" onclick="switchWorkplaceTab('colleagues',this)">💬 Colleagues' View</button>
+            </div>
+            <div class="workplace-body" id="workplace-body-text"></div>
+          </div>
+        </div>
+
+        <div class="ul-conv-card">
+          <div class="ul-conv-cta">
+            <div class="ul-conv-h">Ready to actually practice?</div>
+            <p class="ul-conv-p">This was just a preview.<br>Real interviews are way harder — and way more revealing.</p>
+            <button class="btn-primary" id="btn_conversion_cta" onclick="trackButtonClick('btn_conversion_cta'); window.open('#','_blank')">Try a real interview →</button>
+            <button class="btn-ghost" onclick="showScreen('hero')">Test Again</button>
+            <p class="ul-conv-sub">Practice across 100+ roles · get feedback on how you actually perform</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-footer">
+        Powered by MYLS Interview · <span style="text-decoration:underline;cursor:pointer">Privacy Policy</span><br>
+        Audio processed in real-time and immediately discarded. Nothing is stored.
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const state = { identity:{year:null,industry:null}, answers:[null,null,null,null,null], currentMcq:0, vector:null, persona:null, voiceAdjustments:null };
+
+  // ── GA4 EVENT TRACKING ───────────────────────────────────────────────────
+  function fireEvent(eventName, params) {
+    if (typeof gtag === 'function') gtag('event', eventName, params);
+    else if (window.dataLayer) window.dataLayer.push(Object.assign({ event: eventName }, params));
+  }
+  function trackButtonClick(buttonId) { fireEvent('button_click', { button_id: buttonId }); }
+
+  // ── SESSION ID & URL LOGIC ───────────────────────────────────────────────
+  const SESSION_ID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0;
+    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+  function getShareUrl() {
+    const base = window.location.origin + window.location.pathname.replace(/\/result\/[^/]*$/, '');
+    return (base.endsWith('/') ? base : base + '/') + '?utm_source=share&utm_medium=native_share&utm_campaign=aura_quiz';
+  }
+
+  // ── MCQ DATA (5D scores per option) ─────────────────────────────────────
+  const MCQ_DATA = [
+    {
+      step:'02', progress:'20%', ctx:'Campus scenario',
+      q:'Group project due tomorrow. One teammate ghosted and did zero work. You:',
+      opts:['Do it myself, submit, and don\'t mention it unless asked.','Call them out in the group chat — public accountability.','Message them privately and offer to help finish tonight.','Forward the unfinished sections to everyone with a clear note on what\'s still missing.'],
+      scores:[{act:15,comm:35,inter:55,conf:25,strat:20},{act:90,comm:55,inter:25,conf:80,strat:40},{act:50,comm:60,inter:85,conf:50,strat:60},{act:60,comm:75,inter:65,conf:55,strat:70}]
+    },
+    {
+      step:'03', progress:'40%', ctx:'Career fair scenario',
+      q:'Career Fair line for your dream company is 45 mins long. You:',
+      opts:['Warm up at a smaller booth, then circle back later.','Stay in line and rehearse exactly what I\'ll say.','Grab a card, skip the line, send a cold email tonight.','Find someone else in line and strike up a conversation to make the wait useful.'],
+      scores:[{act:65,comm:50,inter:55,conf:60,strat:70},{act:45,comm:35,inter:40,conf:40,strat:85},{act:90,comm:80,inter:65,conf:85,strat:80},{act:50,comm:70,inter:80,conf:60,strat:45}]
+    },
+    {
+      step:'04', progress:'60%', ctx:'Interview scenario',
+      q:'Recruiter kicks off with "Walk me through your resume." You:',
+      opts:['Start with my most recent internship — it\'s my strongest.','Pull 2-3 experiences that map directly to this role.','Open with why I\'m in this field, then back it up.','Ask the recruiter what they\'re most curious about and tailor from there.'],
+      scores:[{act:40,comm:50,inter:55,conf:50,strat:45},{act:55,comm:85,inter:35,conf:60,strat:90},{act:50,comm:70,inter:80,conf:65,strat:70},{act:45,comm:80,inter:75,conf:65,strat:75}]
+    },
+    {
+      step:'05', progress:'80%', ctx:'Networking scenario',
+      q:'You\'re at a networking event and don\'t know anyone. You:',
+      opts:['Find one person who looks equally lost and start there.','Introduce yourself to whoever\'s standing near the food or drinks. Low stakes.','Walk up to the most senior person in the room and introduce yourself directly.','Hang back and observe the room for a few minutes before making a move.'],
+      scores:[{act:40,comm:45,inter:60,conf:35,strat:30},{act:65,comm:60,inter:75,conf:60,strat:40},{act:85,comm:70,inter:55,conf:90,strat:75},{act:20,comm:30,inter:35,conf:25,strat:55}]
+    },
+    {
+      step:'06', progress:'100%', ctx:'Interview scenario',
+      q:'Your interviewer pushes back: "I\'m not sure I agree with that." You:',
+      opts:['Hold your ground. "I hear you, but I still think..."','Ask them to elaborate before deciding whether to defend or adjust.','Say "that\'s a fair point" and incorporate their perspective into your answer.','Say "interesting, what\'s your take?" and flip it back to them.'],
+      scores:[{act:70,comm:65,inter:45,conf:90,strat:55},{act:45,comm:60,inter:65,conf:55,strat:85},{act:35,comm:70,inter:80,conf:40,strat:60},{act:60,comm:85,inter:75,conf:70,strat:70}]
+    }
+  ];
+
+  // ── 20-PERSONA LIBRARY ───────────────────────────────────────────────────
+  const PERSONAS = [
+    {id:1,en:'The Dependable Intern',rarity:15,rarityTier:'common',hotTake:'"You did all the work, but someone else took all the credit.\nBut others and the interviewers aren\'t your teammates!\nThey have no idea how much you carried behind the scenes.\nYet when you speak, it\'s always \'we,\'\nmaking you sound like an outsider reporting on the team rather than someone who actually drove the work."',oneLiner:'Silent workhorse who saves the project without asking for credit.',tags:['🤝 Reliable','🔇 Quiet','💪 Thorough','😌 Steady'],lens:'We see the effort. Now show us the initiative.',v:{act:20,comm:45,inter:55,conf:35,strat:25}},
+    {id:2,en:'The High-Potential Grinder',rarity:7,rarityTier:'rare',hotTake:'"You prepared so intensely that every sentence sounds like you\'ve rehearsed it ten times.\nLike you\'re trying to prove everything at once.\nAmbition is clear. Focus is not."',oneLiner:'Runs on caffeine and ambition. Prepped since orientation.',tags:['⚡ Ambitious','📋 Over-prepared','🔥 High-motor','🎯 Focused'],lens:'High motor, but slow down. Breathe.',v:{act:85,comm:55,inter:30,conf:85,strat:80}},
+    {id:3,en:'The Case Study Natural',rarity:8,rarityTier:'rare',hotTake:'"Your answers are airtight, with layers of structure stacked neatly on top of each other.\nBut they\'re so polished that they feel almost impersonal.\nThe interviewer sees that you\'re smart,\nbut isn\'t sure whether working with you would feel exhausting."',oneLiner:'Brain organizes chaos into 2x2 matrices by default.',tags:['🧠 Structured','📊 Precise','💡 Analytical','🔍 Sharp'],lens:'Great structure. Now add some humanity.',v:{act:50,comm:85,inter:35,conf:60,strat:90}},
+    {id:4,en:'The Coffee Chat Pro',rarity:9,rarityTier:'rare',hotTake:'"You connect easily with people.\nYou can make someone feel like an old friend in just three minutes.\nBut when the conversation gets too lively, it\'s easy to lose track of the point.\nThe interviewer likes your personality,\nbut afterward, they can\'t clearly remember what you can actually do."',oneLiner:'Mastered the 15‑min Zoom coffee. LinkedIn is a flex.',tags:['🗣️ Networker','✨ Charming','🤝 Connected','🎤 Social'],lens:'You\'re likeable. Now be memorable for the right reasons.',v:{act:70,comm:75,inter:80,conf:85,strat:75}},
+    {id:5,en:'The Silent Sniper',rarity:10,rarityTier:'uncommon',hotTake:'"You\'re the kind of person who quietly gets big things done.\nBut you keep yourself too hidden.\nIf you don\'t say it, how will anyone know those impressive results were your work?"',oneLiner:'Lurks in meetings, delivers work that hits like a headshot.',tags:['🎯 Precise','🔇 Reserved','👁️ Observant','🏹 Strategic'],lens:'Say more. Your silence leaves too much to interpretation.',v:{act:25,comm:35,inter:45,conf:40,strat:30}},
+    {id:6,en:'The People Pleaser',rarity:12,rarityTier:'common',hotTake:'"You support the team and keep things smooth.\nPeople rely on your presence.\nBut you shrink your own role.\nYou talk about others more than yourself.\nYou create value. You don\'t claim it."',oneLiner:'The group\'s unofficial therapist.',tags:['💛 Empathetic','🤝 Collaborative','😊 Warm','🌱 Supportive'],lens:'Stop accommodating. Start differentiating.',v:{act:40,comm:55,inter:90,conf:35,strat:40}},
+    {id:7,en:'The Over-Prepared Overthinker',rarity:8,rarityTier:'rare',hotTake:'"You\'ve prepared for everything.\nYou think through every possible answer.\nBut that pressure shows.\nYour answers feel tight and controlled.\nYou sound careful. Not confident."',oneLiner:'Notes app is a graveyard of interview scripts.',tags:['📝 Meticulous','🔄 Overthinks','⏰ Rehearsed','🧩 Detail-oriented'],lens:'Drop the script. We can hear it.',v:{act:45,comm:40,inter:50,conf:25,strat:85}},
+    {id:8,en:'The Storyteller',rarity:10,rarityTier:'uncommon',hotTake:'"You know how to tell a story.\nYou make things engaging and memorable.\nBut sometimes you go too far.\nThe story takes over the substance.\nIt sounds good. It proves less."',oneLiner:'Turns a grocery run into a leadership case study.',tags:['📖 Narrative','🎭 Expressive','💬 Articulate','🌟 Memorable'],lens:'Strong narrative. Watch the clock.',v:{act:45,comm:75,inter:80,conf:60,strat:55}},
+    {id:9,en:'The Data Whisperer',rarity:6,rarityTier:'rare',hotTake:'"You genuinely love numbers — every conclusion has to be backed by data.\nBut the interviewer isn\'t looking for a dashboard; they want your judgment.\nIf you just present the results without explaining what they actually mean,\nthey\'ll keep nodding along while quietly accumulating more and more questions."',oneLiner:'Numbers are your love language.',tags:['📊 Data-driven','🔢 Precise','📈 Analytical','🧮 Quantitative'],lens:'The numbers are there. Now make us feel something.',v:{act:50,comm:85,inter:30,conf:55,strat:80}},
+    {id:10,en:'The Empathy Anchor',rarity:10,rarityTier:'uncommon',hotTake:'"You understand people deeply.\nYou know how to read the room.\nBut you soften your answers too much.\nYou avoid being direct.\nYou feel supportive. Not decisive."',oneLiner:'The person everyone DMs when spiraling.',tags:['💛 Caring','🤝 Present','🌊 Calm','🫂 Supportive'],lens:'You listen well. Now let us hear you.',v:{act:35,comm:50,inter:95,conf:40,strat:35}},
+    {id:11,en:'The Hustler',rarity:7,rarityTier:'rare',hotTake:'"You\'ve worked on a ton of things. Your résumé is packed to the brim.\nBut after hearing you, the interviewer feels a bit overwhelmed.\nIt sounds like you\'ve touched everything, but haven\'t gone deep on anything.\nYou\'ve done so much that it\'s hard to find the throughline:\nwhat are you actually best at?"',oneLiner:'Side projects, startups, eye bags to prove it.',tags:['🚀 Driven','⚡ Multi-tasker','💼 Go-getter','🔥 Relentless'],lens:'Impressive range. What\'s your actual priority?',v:{act:90,comm:70,inter:60,conf:85,strat:65}},
+    {id:12,en:'The Technical Purist',rarity:8,rarityTier:'uncommon',hotTake:'"Your code is beautifully written, your work is perfectly done,\nbut the moment you\'re asked, "How do you handle team conflict?" you freeze.\nTech is your comfort zone,\nbut interviews aren\'t just about technical skills.\nYou also need to translate those experiences into human terms."',oneLiner:'GitHub is green. Behavioral is a foreign language.',tags:['💻 Technical','🔧 Builder','🎯 Precise','🔍 Methodical'],lens:'The skills check out. Can you tell us about them?',v:{act:30,comm:50,inter:40,conf:40,strat:25}},
+    {id:13,en:'The Charmer',rarity:5,rarityTier:'very-rare',hotTake:'"You present well and speak smoothly.\nYou know how to leave a good impression.\nBut it can feel polished on the surface.\nDepth is harder to see.\nYou sound strong. Proof feels light."',oneLiner:'Main character energy. Smooth, polished, camera‑ready.',tags:['✨ Magnetic','🗣️ Confident','😎 Smooth','💫 Likeable'],lens:'Almost too confident. Back it up.',v:{act:65,comm:70,inter:75,conf:90,strat:70}},
+    {id:14,en:'The Rule Follower',rarity:12,rarityTier:'common',hotTake:'"You follow structure and expectations.\nYou stay safe and consistent.\nBut nothing stands out.\nYour answers feel predictable.\nYou avoid mistakes. You also avoid impact."',oneLiner:'Syllabus is law. Never deviates.',tags:['📋 Structured','✅ Reliable','🗂️ Organized','📌 Consistent'],lens:'Predictably strong. Unpredictably average.',v:{act:45,comm:80,inter:35,conf:50,strat:70}},
+    {id:15,en:'The Wild Card',rarity:3,rarityTier:'ultra-rare',hotTake:'"When you\'re on, you\'re great.\nYou can deliver strong answers.\nBut it\'s not consistent.\nPerformance changes from moment to moment.\nThey don\'t know which version they\'ll get."',oneLiner:'Interview performance is a dice roll.',tags:['🎲 Unpredictable','💥 Spontaneous','🌀 Dynamic','🎭 Unique'],lens:'We\'re intrigued and terrified. In equal measure.',v:{act:50,comm:50,inter:50,conf:50,strat:50}},
+    {id:16,en:'The Imposter Syndrome Warrior',rarity:4,rarityTier:'very-rare',hotTake:'"You know more than you show.\nYou\'ve done more than you say.\nBut your voice pulls back.\nYour confidence drops mid-answer.\nYou sound unsure. Even when you\'re right."',oneLiner:'Voice trails off like you\'re apologizing.',tags:['🌱 Growth-minded','💭 Self-aware','🤔 Reflective','❤️ Humble'],lens:'You qualify. Trust that.',v:{act:50,comm:55,inter:60,conf:20,strat:45}},
+    {id:17,en:'The "I Can Fix It"',rarity:5,rarityTier:'very-rare',hotTake:'"When you run into a problem, you charge straight in and get it done — that\'s impressive!\nBut once it\'s done, you forget to explain how you were thinking,\nskipping the most critical step.\nThe interviewer only sees the result,\nnot the judgment and decisions that went on in your head along the way."',oneLiner:'Solves problems without waiting for permission.',tags:['🔧 Problem-solver','⚡ Action-first','💪 Reliable','🚒 Fixer'],lens:'You solved it. Now explain how — slowly.',v:{act:92,comm:45,inter:35,conf:85,strat:35}},
+    {id:18,en:'The Curious Cat',rarity:7,rarityTier:'rare',hotTake:'"You ask great questions.\nYou think beyond what\'s given.\nBut you shift the focus.\nToo much curiosity, not enough clarity.\nYou explore well. You don\'t always answer directly."',oneLiner:'Reverse interview questions are legendary.',tags:['🔍 Curious','❓ Questions','🌱 Eager','💡 Inquisitive'],lens:'Ask great questions. Give great answers.',v:{act:45,comm:60,inter:70,conf:55,strat:40}},
+    {id:19,en:'The Calm in the Storm',rarity:6,rarityTier:'rare',hotTake:'"You stay calm under pressure.\nNothing seems to shake you.\nBut that calm can feel flat.\nYour energy doesn\'t come through.\nYou feel stable. Not impactful."',oneLiner:'Radiates Zen even when prod is down.',tags:['😌 Steady','🧘 Composed','⚓ Grounded','🌊 Unflappable'],lens:'Impressively steady. Add some passion.',v:{act:35,comm:50,inter:50,conf:55,strat:50}},
+    {id:20,en:'The Visionary',rarity:4,rarityTier:'very-rare',hotTake:'"You talk about five-year plans and industry shifts — big-picture thinking all the way.\nBut the interviewer first wants to know what you can do starting this week.\nDon\'t stay up in the clouds,\nshow them where your feet hit the ground."',oneLiner:'Thinking about 2030 strategy during first round.',tags:['🔭 Future-focused','💡 Big-picture','🚀 Ambitious','🌍 Impact-driven'],lens:'Love the vision. Show us the execution.',v:{act:60,comm:80,inter:50,conf:80,strat:65}}
+  ];
+
+  const SHOW_RARITY = new Set(['rare','very-rare','ultra-rare']);
+
+  // ── WORKPLACE HABITS DATA ─────────────────────────────────────────────────
+  const WORKPLACE_HABITS = {
+    1: {
+      manager: `<p>Your manager sees you as the safest bet on the team. You never miss a deadline, you never push back, and you never make drama. This sounds like a dream — and in many ways, it is. You're the person they quietly assign the messy work to because they know you'll handle it without complaint.</p><p>But here's the blind spot: your silence can be mistaken for satisfaction. Managers may assume you're happy with your workload when you're actually drowning. They may overlook you for promotions because you don't advocate for yourself. The work you do is visible; the person doing it is not. You need a manager who checks in proactively, not one who waits for you to raise a flag — because you probably won't.</p>`,
+      colleagues: `<p>Your coworkers genuinely like you. You're low-drama, high-output, and never steal credit. On group projects, you're the one people hope shows up in their breakout room. You make other people's lives easier, often at your own expense.</p><p>But your colleagues may not realize how much you're carrying. Because you don't talk about your contributions, they might assume the work distributed itself evenly. Some may even take advantage — intentionally or not — knowing you'll pick up whatever they drop. The people who notice your quiet competence will become your biggest advocates. The ones who don't? They'll just keep handing you work.</p>`
+    },
+    2: {
+      manager: `<p>Your manager is simultaneously impressed and slightly exhausted just watching you. You're the first to volunteer, the last to log off, and the one who treats stretch goals as the bare minimum. For a manager who craves output, you're a gift. For one who worries about burnout, you're a headache.</p><p>The risk with your intensity is that managers may keep feeding you more instead of telling you to slow down. They might assume you're fine because you never show cracks — until you do. You need a manager who can match your pace but also protect you from yourself. Someone who says "good work" as often as they say "what's next." Without that, you'll grind until there's nothing left.</p>`,
+      colleagues: `<p>Your coworkers have complicated feelings about you. On one hand, you raise the bar for everyone. Your energy is contagious, and you make the team feel ambitious. On the other hand, you can unintentionally make people feel slow or inadequate. Not everyone wants to run at your speed, and they shouldn't have to.</p><p>Some colleagues will be inspired by you. Others will resent you. The difference often comes down to whether you share your strategies or keep them to yourself. When you help others level up, you become the team's engine. When you just lap them silently, you become the teammate they avoid at happy hour.</p>`
+    },
+    3: {
+      manager: `<p>Your manager trusts your brain more than most people's spreadsheets. You bring structure to chaos, and your presentations practically write themselves. When a VP asks a tough question, your manager glances at you first. You're the strategic backbone of the team.</p><p>But there's a "however." Your structured delivery can feel cold. Managers may appreciate your clarity but miss your personality. They might think you're all framework and no feeling — which becomes a problem when you're being considered for roles that require influencing people, not just analyzing problems. You need a manager who values precision but also coaches you to add warmth to your delivery. One human sentence at the end of a perfect analysis can change everything.</p>`,
+      colleagues: `<p>Your coworkers respect your mind. When the team is lost in ambiguity, you're the one who draws the 2x2 on the whiteboard and suddenly everything makes sense. People seek you out for input on their toughest problems.</p><p>But they might not seek you out for lunch. Your colleagues may find you intellectually impressive but emotionally distant. They wonder what you actually care about beyond getting the answer right. The moment you let them see your thought process instead of just the polished output — including the mess and the doubts — you become not just the smart one, but the trusted one.</p>`
+    },
+    4: {
+      manager: `<p>Your manager sees a future leader in you. You're the one who can walk into any room and make something happen. You build relationships effortlessly, and your network is your superpower. For roles that require influence and client-facing charm, you're the obvious choice.</p><p>The worry is depth. Your manager may wonder if the substance matches the style. You can get the meeting — but can you deliver the follow-up? Can you turn the coffee into a closed deal? You need a manager who celebrates your charisma while holding you accountable for execution. Charm opens doors; delivery keeps them open.</p>`,
+      colleagues: `<p>You make work feel less like work. Your coworkers genuinely enjoy being around you. You're the one who remembers everyone's weekend plans, who brings energy to Zoom calls, who makes networking feel like hanging out. You're often the social glue of the team.</p><p>But some colleagues may quietly wonder if you pull your weight when the socializing stops. They've seen you shine in the meeting — but did you do the deck? They love grabbing coffee with you — but did you send the recap email? The coworkers who trust you most are the ones who've seen you deliver, not just dazzle.</p>`
+    },
+    5: {
+      manager: `<p>Your manager knows you deliver excellent work. They just have no idea how you do it, when you do it, or what you're thinking while you do it. Your output speaks for itself, but your process is a black box. For a hands-off manager, this is fine. For one who needs visibility, you're a source of low-grade anxiety.</p><p>The danger is that your silence gets misinterpreted. Managers may read your quietness as disengagement, your independence as aloofness, your lack of updates as lack of progress. You need a manager who trusts the work and doesn't micromanage, but also one who occasionally pulls you aside to say "tell me what's in your head." You have to meet them halfway by opening the door just a crack.</p>`,
+      colleagues: `<p>Your coworkers are intrigued by you. You're the one who shows up to the meeting, says almost nothing, and then drops a piece of work so good it makes everyone else's look like a rough draft. You have a quiet mystique that people respect.</p><p>But they also find you hard to collaborate with. They don't know when to check in with you, how to give you feedback, or whether you even want to be on the team. When you share your thinking — not just the finished product — you go from mysterious to magical. The colleagues who crack your shell become your fiercest allies.</p>`
+    },
+    6: {
+      manager: `<p>Your manager appreciates the harmony you bring. Team morale is higher because you're in it. You're the one who smooths over conflicts, checks on people who seem quiet, and makes sure everyone feels included. In a team that struggles with culture, you're a gift.</p><p>But your manager may not see your individual contributions clearly. When everything is "we did this" and "the team worked on that," your personal impact becomes invisible. You need a manager who can distinguish between your collaborative spirit and your actual output — and who will push you to claim your wins out loud. If they don't, your performance review will read like a group project credit roll.</p>`,
+      colleagues: `<p>Your coworkers genuinely like you. You're the one they vent to, the one who remembers birthdays, the one who checks in when something feels off. You're the emotional radiator of the team, and people feel safe around you.</p><p>But some coworkers may take advantage of your desire to help. They'll let you pick up their slack, knowing you won't complain. They'll offload emotional weight onto you because you're "such a good listener." The healthiest colleagues will appreciate your warmth while also checking in on you. Hold onto those ones. The others? They'll drain you dry if you let them.</p>`
+    },
+    7: {
+      manager: `<p>Your manager receives flawless work from you. The deck is perfect. The backup analysis is ready. The edge cases have been considered. You deliver at a quality level that most people need twice the time to achieve.</p><p>What your manager doesn't see is the cost. The 2am anxiety emails. The seventeen drafts. The rehearsal of a presentation that ended up being fine anyway. You need a manager who can tell you "this is good enough — send it" and mean it. Someone who rewards the result but also helps you calibrate what "done" looks like. Without that, you'll keep polishing until you burn out.</p>`,
+      colleagues: `<p>Your coworkers admire your thoroughness. When you're on the project, they know there won't be surprises. You've already thought of everything that could go wrong. You're the contingency plan machine.</p><p>But they also wish you'd relax. Your anxiety can be contagious — when you're stressed about something that seems small, others start wondering if they should be stressed too. The colleagues who tell you "it's going to be okay" and mean it are your anchors. Trust them when they say you've done enough.</p>`
+    },
+    8: {
+      manager: `<p>Your manager enjoys your presence. In client meetings, you make the team look good. You can take a dry quarterly update and turn it into something people actually listen to. You're the one they send when the message needs to land with impact.</p><p>The watch-out is brevity. When time is tight, your manager may start checking their watch. They value your narrative gift, but they also need you to know when to land the plane. You need a manager who gives you the stage but also coaches you on the art of the quick hit. A well-told story is memorable; a well-timed one is powerful.</p>`,
+      colleagues: `<p>Your coworkers enjoy listening to you. You make meetings less boring. Your stories stick — people remember what you said days later. You bring a human element to work that makes the team feel less transactional.</p><p>But they also know that a quick question to you might turn into a ten-minute anecdote. They love your energy, but sometimes they just need the headline. The colleagues who learn to say "give me the short version" with a smile will be your best collaborators. And when they need inspiration, they'll come straight to you.</p>`
+    },
+    9: {
+      manager: `<p>Your manager trusts your numbers implicitly. When you say a metric is up 12%, they don't ask to see the spreadsheet — they put it in the board deck. Your rigor is your credibility, and it gives your manager confidence in high-stakes situations.</p><p>The gap is synthesis. Your manager gets the data; they might not get the so what. You need to add one sentence after every data point: "And here's what this means for us." Without that, you're a brilliant analyst. With it, you're a strategic advisor.</p>`,
+      colleagues: `<p>Your coworkers respect your precision. When they need evidence for an argument, they come to you. You're the person who makes sure the team doesn't make decisions based on vibes alone.</p><p>But your data-heavy communication can lose people. Not everyone thinks in numbers. Some colleagues will zone out when the pivot table appears. When you translate data into decisions — "The numbers say X, so I recommend Y" — you become not just the analyst, but the person everyone wants on their project.</p>`
+    },
+    10: {
+      manager: `<p>Your manager sees you as the emotional backbone of the team. When morale dips, you're the one who brings it back. When someone is struggling, you notice before anyone else. You make the team feel like a team.</p><p>The risk is that your manager may pigeonhole you as "the culture person" and overlook your other capabilities. Your empathy is a strength, but make sure they also see your hard skills. You need a manager who values both — who sees your warmth as a leadership trait, not a soft skill footnote.</p>`,
+      colleagues: `<p>Your coworkers feel safe with you. You're the person they DM when they're having a rough day. You listen without judgment, and you make people feel understood. In a high-pressure environment, you're everyone's pressure release valve.</p><p>But being everyone's therapist comes at a cost. Some colleagues will keep taking without giving back. They'll offload their stress onto you and walk away lighter, while you carry the weight. The coworkers who check in on you — who ask how you're doing and actually wait for the answer — are the ones worth keeping close.</p>`
+    },
+    11: {
+      manager: `<p>Your manager is impressed by your portfolio and slightly intimidated by your energy. You've done more in three years than most people do in ten. You bring ideas, initiative, and a fire that's hard to find.</p><p>But your manager may quietly wonder if you'll stay. Are you here for the long haul, or is this just another side project? You need to signal commitment — not by dimming your ambition, but by showing how this role connects to your bigger picture. A manager who can channel your energy is gold. One who fears it will hold you back.</p>`,
+      colleagues: `<p>Your coworkers are fascinated by you. You're the one who launches startups on weekends and freelances for fun. You bring a different energy to the team — more entrepreneurial, less conventional.</p><p>But your colleagues may struggle to keep up with your variety. One week you're deep in a project, the next you seem distracted by something new. The coworkers who love working with you are the ones who share your curiosity. The ones who don't may find you scattered. Help them connect the dots between your many pursuits.</p>`
+    },
+    12: {
+      manager: `<p>Your manager sees a brilliant engineer in you. Your technical output is solid, your code is clean, and you solve problems that others can't. In a technical role, you're exactly what they need.</p><p>But your manager worries about your visibility. When it comes to presenting your work, explaining your decisions, or navigating non-technical conversations, you retreat. You need a manager who shields you from unnecessary noise but also pushes you gently into the rooms where your career gets shaped. One presentation won't kill you — and it might just change your trajectory.</p>`,
+      colleagues: `<p>Your coworkers respect your craft. They know you're the one who can fix the thing when it breaks. When a technical question comes up, heads turn toward you.</p><p>But they find you hard to read. You don't share your process, your reasoning, or sometimes even your status. Collaborating with you can feel like throwing requests into a black box and waiting for output. When you take five minutes to walk someone through your thinking, you go from "the mysterious expert" to "the teammate everyone wants on their squad."</p>`
+    },
+    13: {
+      manager: `<p>Your manager enjoys having you around. You're polished, articulate, and you make the team look good in front of leadership. You have a natural presence that can't be taught.</p><p>But your smoothness can create a quiet skepticism. Your manager may wonder: is this all polish, or is there depth behind it? You need to show your work — the messy drafts, the honest struggles, the moments of doubt. A manager who sees both your shine and your substance will champion you. One who only sees the shine may hesitate.</p>`,
+      colleagues: `<p>Your coworkers are drawn to you. You have that "main character" energy that makes people want to be on your team. You make presentations look easy and networking look fun.</p><p>But some colleagues will keep a bit of distance. They've been burned by charm before. They wonder if you're as genuine in private as you are in public. The coworkers who get to know the real you — the one who also has bad days and insecurities — become your most loyal allies. Let a few people see behind the curtain.</p>`
+    },
+    14: {
+      manager: `<p>Your manager loves that you're reliable. Deadlines are met, processes are followed, and nothing slips through the cracks. You're the person who reads the instructions — and actually follows them. In a team full of chaos, you're an anchor.</p><p>But your manager may wonder if you can operate without the playbook. When there's no clear process, do you freeze? When a situation calls for bending a rule, do you panic? You need a manager who appreciates your orderliness but gradually gives you permission to improvise. The most valuable people can follow the recipe and know when to throw it out.</p>`,
+      colleagues: `<p>Your coworkers count on your consistency. They know that if you said you'd do it, it will be done. On time. Correctly. You're the person who keeps the team's operations from falling apart.</p><p>But they might not think of you when they need creative ideas. You're seen as the executor, not the innovator. The colleagues who ask for your opinion — not just your execution — are the ones who see your full potential. When you share an unconventional thought, even one, it shifts how people perceive you.</p>`
+    },
+    15: {
+      manager: `<p>Your manager has a love-hate relationship with your unpredictability. When you're on, you're brilliant — insightful, creative, a step ahead of the room. When you're off, you're distracted, inconsistent, and hard to read. They never know which version is showing up.</p><p>The most important thing you can do for your career is narrow the variance. You don't need to be perfect every day; you need to be more consistent. A manager who can give you honest, real-time feedback about which days are which will be your greatest asset. Self-awareness about your own patterns turns "unpredictable" into "dynamic."</p>`,
+      colleagues: `<p>Your coworkers find you memorable. You're the wildcard on the team — sometimes the unexpected genius, sometimes the person who derails the meeting. Working with you is never boring.</p><p>But "never boring" isn't always a compliment. Some colleagues will love your unpredictability; others will find it exhausting. The difference often comes down to whether you communicate. When you give people a heads-up about where your head is at, they can adjust. When you show up as a complete surprise every time, they stop trying to plan around you.</p>`
+    },
+    16: {
+      manager: `<p>Your manager values you more than you know. They see your work, they see your potential, and they've probably said it to your face. The problem isn't their perception — it's yours. You keep waiting for someone to discover you're a fraud, but the only person who believes that story is you.</p><p>You need a manager who doesn't just give you praise, but gives you specific evidence. "Your analysis on that project changed our approach" lands differently than "good job." When you can't deny the facts, you start to believe them. A manager who documents your wins for you — literally puts them in writing — is the one who will unlock your confidence.</p>`,
+      colleagues: `<p>Your coworkers respect you more than you realize. They see someone competent, reliable, and thoughtful. They don't hear the self-doubt that echoes in your head. In fact, some of them probably look up to you.</p><p>But your constant self-deprecation can be confusing. When you dismiss your own contributions, your colleagues start to wonder if they should doubt you too. The coworkers who build you up — who say "you actually crushed that" and mean it — are your mirrors. Believe them. They're not just being nice.</p>`
+    },
+    17: {
+      manager: `<p>Your manager loves your initiative. When something breaks, you're already fixing it before anyone else notices. You don't wait for permission, and in a crisis, that's invaluable. You're the person they call when something absolutely has to get done.</p><p>But you bypass people. Your manager may appreciate the result while resenting the process. You make decisions that affect others without consulting them. You need a manager who can say "great initiative, next time loop in Sarah first." Someone who redirects your energy without extinguishing it.</p>`,
+      colleagues: `<p>Your coworkers are grateful for you in a crisis. When the project is on fire, you're the one running toward it while others freeze. You've saved projects, and people remember that.</p><p>But you can also make people feel like obstacles. When you charge ahead without including them, the message is: "I don't trust you to handle this." Even if that's not what you mean, it's what they hear. The colleagues who get the best version of you are the ones you let in before the fire starts — not just when it's already burning.</p>`
+    },
+    18: {
+      manager: `<p>Your manager appreciates your intellectual hunger. You ask questions that make the room think harder. You're not satisfied with surface answers, and you push for deeper understanding. In brainstorming sessions, you're a spark.</p><p>But your manager also needs you to know when to stop asking and start doing. Endless curiosity without execution can stall a project. You need a manager who can say "great question — let's park that and move forward" without killing your spirit. Curiosity is your superpower; knowing when to act is your growth edge.</p>`,
+      colleagues: `<p>Your coworkers enjoy your curiosity — in doses. You ask the questions no one else thinks of, and you make conversations richer. Your "what ifs" often lead to better ideas.</p><p>But you can also exhaust people. Not every moment is a deep dive. Sometimes your colleagues just need a quick answer, and your cascade of follow-up questions feels like a detour. When you balance curiosity with momentum — asking the best question rather than every question — you become the person everyone wants in the room.</p>`
+    },
+    19: {
+      manager: `<p>Your manager sees you as an anchor. When deadlines are crashing, when a client is escalating, when the team is panicking — you're steady. Your heart rate doesn't spike. You do not spiral. That kind of stability is rare and deeply valuable.</p><p>But your calm can be misread as indifference. Your manager may wonder if you actually care. When something big is at stake, they need to see not just your steadiness, but your investment. You need a manager who understands that calm and passion can coexist — and who reminds you to occasionally show the fire beneath the ice.</p>`,
+      colleagues: `<p>Your coworkers feel safe around you. In chaotic moments, they glance at you and feel a little calmer themselves. You're the eye of the hurricane, and your presence stabilizes the team.</p><p>But your unflappable nature can also create distance. Colleagues may wonder if you're really invested or just going through the motions. When you share what you actually care about — when you let excitement or frustration show — people connect with you on a deeper level. The calm is a gift. The passion is the missing piece.</p>`
+    },
+    20: {
+      manager: `<p>Your manager appreciates your big-picture thinking. You see the future in a way that others don't. You're thinking about 2030 while everyone else is trying to get through Q3. That long-range vision is what companies need to stay ahead.</p><p>But your manager also needs you to land the plane. The weekly reports, the small deliverables, the mundane updates — these matter too. You need a manager who values your vision but also holds you accountable to the present. Someone who says "love the future, now show me the spreadsheet."</p>`,
+      colleagues: `<p>Your coworkers are inspired by your thinking. Your ideas make them feel like they're building something meaningful. You give the team a sense of direction and purpose.</p><p>But they can also feel left behind. While you're operating at 30,000 feet, they're trying to figure out today's to-do list. When you connect the big vision to the next small step — "here's what this means for this week" — your colleagues go from inspired to empowered. The combination of vision and execution makes people want to follow you anywhere.</p>`
+    }
+  };
+
+  // ── I WILL HIRE YOU IF… DATA ─────────────────────────────────────────────
+  const HIRE_IF = {
+    1:  ['You tell me what you specifically did, not "we" but "I."', 'You add a confident "because" after every claim.', 'You ask at least one bold question that shows you\'ve been thinking.', 'You show me you want the job, not just that you\'ll do it quietly.'],
+    2:  ['You slow down to let me finish my question before you answer.', 'You replace filler words like "basically" or "you know" with a pause.', 'You structure your answer with a clear beginning, middle, and end.', 'You mention how you collaborated, not just how you crushed it alone.'],
+    3:  ['You open with a human sentence before the framework.', 'You show me you care about the people in your case study, not just the logic.', 'You make eye contact and vary your tone so you don\'t sound scripted.', 'You tell me why this problem matters to you personally.'],
+    4:  ['You follow your charm with a specific, measurable result.', 'You keep your answers under 90 seconds and every story has a landing.', 'You show me your prep work, not just your networking.', 'You demonstrate that you can deliver alone, not just with a room behind you.'],
+    5:  ['You walk me through your thought process out loud, step by step.', 'You give me context before the conclusion.', 'You share one story where you influenced a decision, not just executed it.', 'You speak up without waiting for the perfect moment.'],
+    6:  ['You use "I" at least five times in this interview.', 'You tell me about a time you disagreed with the team, and how it turned out.', 'You set a boundary: "Here\'s what I need to do my best work."', 'You show me your edge, not just your warmth.'],
+    7:  ['You trust your first draft, send it, and move on.', 'You answer naturally instead of reciting a memorized script.', 'You let a little spontaneity into the conversation.', 'You admit when you don\'t know something without spiraling.'],
+    8:  ['You give me the headline first, then the story.', 'You cut the length of your best story in half, and it\'s still powerful.', 'You check in: "Am I giving you what you need, or should I go deeper?"', 'You balance narrative with hard numbers.'],
+    9:  ['You tell me the "so what" after every number.', 'You translate one complex metric into everyday language.', 'You show me you can make decisions without 100% of the data.', 'You connect the data to a human outcome.'],
+    10: ['You prove you have the hard skills to back up the soft ones.', 'You take credit for a project you led without deflecting.', 'You tell me about a time you prioritized your own goal over the group\'s comfort.', 'You show me ambition, not just support.'],
+    11: ['You explain why this role, specifically, isn\'t just another side quest.', 'You connect your many projects into one coherent career narrative.', 'You mention a long‑term goal that ties to staying here.', 'You show depth in one area, not just breadth.'],
+    12: ['You explain a technical concept to me as if I\'m non‑technical, clearly and warmly.', 'You share a story about working with a difficult teammate.', 'You show curiosity about the business side, not just the code.', 'You practice behavioral answers out loud until they feel natural.'],
+    13: ['You let me see one genuine imperfection — a struggle, a doubt, a mistake.', 'You follow your polished intro with a concrete, unpolished example.', 'You go deeper on one topic rather than skating across five.', 'You prove you can be serious when the moment calls for it.'],
+    14: ['You tell me about a time you bent a rule and got a better result.', 'You share a creative idea, not just an executed one.', 'You show me you can operate without the playbook.', 'You ask "what if we tried this differently?" at least once.'],
+    15: ['You show up consistently, bringing your best self, not just a lucky day.', 'You build a prep routine so your performance isn\'t a dice roll.', 'You reflect on your patterns: what makes a good day good?', 'You ground your unpredictable brilliance with one repeatable strength.'],
+    16: ['You land every sentence with conviction, no trailing off.', 'You list three concrete wins you\'re proud of, and say them out loud.', 'You remove "just," "maybe," and "sorry" from your vocabulary for this interview.', 'You internalize that you\'re not lucky, you\'re good.'],
+    17: ['You tell me about a time you collaborated before the fire started.', 'You say "we fixed it" instead of "I fixed it."', 'You check in with at least one stakeholder before taking action.', 'You show me you can prevent fires, not just fight them.'],
+    18: ['You finish one complete thought before jumping to the next question.', 'You turn one "why" into a "here\'s what I\'d do."', 'You demonstrate execution: "I\'m curious about X, so I built Y."', 'You balance deep questioning with decisive action.'],
+    19: ['You show me a moment of genuine excitement — let the fire out.', 'You express one strong opinion in the interview.', 'You prove your calm isn\'t indifference by naming what you really care about.', 'You raise your energy level to match the room when it matters.'],
+    20: ['You connect your big vision to today\'s to‑do list.', 'You give me one small, concrete example of a time you executed, not just imagined.', 'You show patience for the boring stuff, because it funds the dream.', 'You tell me what you\'d do in your first 90 days, not just in 2030.']
+  };
+
+  // ── ROLE MATCH MATRIX (Industry × Persona) ───────────────────────────────
+  const ROLE_MATRIX = {
+    1:  { tech:['Data Analyst','UX Researcher','Software Engineer'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Content Strategist','Marketing Manager'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    2:  { tech:['Product Manager','Software Engineer','Data Analyst'], finance:['Investment Banking Analyst','Management Consultant','Strategy Associate'], marketing:['Marketing Manager','Sales Development Representative','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Biotech Analyst'], creative:['Business Development Representative','Project Manager','Operations Analyst'], other:['Business Development Representative','Project Manager','Operations Analyst'] },
+    3:  { tech:['Product Manager','Data Analyst','Solutions Engineer'], finance:['Management Consultant','Strategy Associate','Investment Banking Analyst'], marketing:['Brand Strategist','Marketing Manager','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Medical Affairs Associate'], creative:['Project Manager','Communications Manager','Business Development Representative'], other:['Project Manager','Communications Manager','Business Development Representative'] },
+    4:  { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Management Consultant','Investment Banking Analyst','Strategy Associate'], marketing:['Sales Development Representative','Marketing Manager','Brand Strategist'], healthcare:['Medical Affairs Associate','Healthcare Consultant','Health Policy Analyst'], creative:['Business Development Representative','Communications Manager','Project Manager'], other:['Business Development Representative','Communications Manager','Project Manager'] },
+    5:  { tech:['Software Engineer','Data Analyst','UX Researcher'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Content Strategist','Brand Strategist'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','UX Designer','Project Manager'], other:['Operations Analyst','UX Designer','Project Manager'] },
+    6:  { tech:['UX Researcher','Product Manager','Solutions Engineer'], finance:['Risk Analyst','Financial Analyst','Strategy Associate'], marketing:['Marketing Manager','Content Strategist','Brand Strategist'], healthcare:['Clinical Research Associate','Medical Affairs Associate','Healthcare Consultant'], creative:['Communications Manager','Project Manager','Operations Analyst'], other:['Communications Manager','Project Manager','Operations Analyst'] },
+    7:  { tech:['Data Analyst','Software Engineer','Product Manager'], finance:['Financial Analyst','Risk Analyst','Management Consultant'], marketing:['Growth Analyst','Brand Strategist','Content Strategist'], healthcare:['Biotech Analyst','Clinical Research Associate','Health Policy Analyst'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    8:  { tech:['Product Manager','UX Researcher','Solutions Engineer'], finance:['Management Consultant','Strategy Associate','Investment Banking Analyst'], marketing:['Brand Strategist','Content Strategist','Marketing Manager'], healthcare:['Medical Affairs Associate','Healthcare Consultant','Health Policy Analyst'], creative:['Communications Manager','Business Development Representative','Project Manager'], other:['Communications Manager','Business Development Representative','Project Manager'] },
+    9:  { tech:['Data Analyst','Software Engineer','Product Manager'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Marketing Manager','Brand Strategist'], healthcare:['Biotech Analyst','Clinical Research Associate','Health Policy Analyst'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    10: { tech:['UX Researcher','Product Manager','Solutions Engineer'], finance:['Risk Analyst','Financial Analyst','Strategy Associate'], marketing:['Content Strategist','Marketing Manager','Brand Strategist'], healthcare:['Clinical Research Associate','Medical Affairs Associate','Healthcare Consultant'], creative:['Communications Manager','UX Designer','Project Manager'], other:['Communications Manager','UX Designer','Project Manager'] },
+    11: { tech:['Product Manager','Solutions Engineer','Software Engineer'], finance:['Investment Banking Analyst','Strategy Associate','Management Consultant'], marketing:['Sales Development Representative','Marketing Manager','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Medical Affairs Associate'], creative:['Business Development Representative','Project Manager','Operations Analyst'], other:['Business Development Representative','Project Manager','Operations Analyst'] },
+    12: { tech:['Software Engineer','Data Analyst','UX Researcher'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Growth Analyst','Content Strategist','Brand Strategist'], healthcare:['Biotech Analyst','Clinical Research Associate','Medical Affairs Associate'], creative:['UX Designer','Operations Analyst','Project Manager'], other:['UX Designer','Operations Analyst','Project Manager'] },
+    13: { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Management Consultant','Investment Banking Analyst','Strategy Associate'], marketing:['Sales Development Representative','Brand Strategist','Marketing Manager'], healthcare:['Medical Affairs Associate','Healthcare Consultant','Health Policy Analyst'], creative:['Business Development Representative','Communications Manager','Project Manager'], other:['Business Development Representative','Communications Manager','Project Manager'] },
+    14: { tech:['Data Analyst','Software Engineer','Product Manager'], finance:['Financial Analyst','Risk Analyst','Management Consultant'], marketing:['Growth Analyst','Content Strategist','Marketing Manager'], healthcare:['Clinical Research Associate','Biotech Analyst','Health Policy Analyst'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    15: { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Strategy Associate','Management Consultant','Financial Analyst'], marketing:['Marketing Manager','Brand Strategist','Sales Development Representative'], healthcare:['Healthcare Consultant','Medical Affairs Associate','Biotech Analyst'], creative:['Project Manager','Business Development Representative','Communications Manager'], other:['Project Manager','Business Development Representative','Communications Manager'] },
+    16: { tech:['Data Analyst','UX Researcher','Software Engineer'], finance:['Financial Analyst','Risk Analyst','Strategy Associate'], marketing:['Content Strategist','Growth Analyst','Brand Strategist'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','UX Designer','Project Manager'], other:['Operations Analyst','UX Designer','Project Manager'] },
+    17: { tech:['Software Engineer','Product Manager','Solutions Engineer'], finance:['Investment Banking Analyst','Strategy Associate','Management Consultant'], marketing:['Sales Development Representative','Marketing Manager','Growth Analyst'], healthcare:['Healthcare Consultant','Health Policy Analyst','Medical Affairs Associate'], creative:['Business Development Representative','Project Manager','Operations Analyst'], other:['Business Development Representative','Project Manager','Operations Analyst'] },
+    18: { tech:['UX Researcher','Product Manager','Data Analyst'], finance:['Strategy Associate','Management Consultant','Risk Analyst'], marketing:['Brand Strategist','Content Strategist','Growth Analyst'], healthcare:['Health Policy Analyst','Healthcare Consultant','Medical Affairs Associate'], creative:['Communications Manager','UX Designer','Project Manager'], other:['Communications Manager','UX Designer','Project Manager'] },
+    19: { tech:['Data Analyst','UX Researcher','Software Engineer'], finance:['Risk Analyst','Financial Analyst','Strategy Associate'], marketing:['Content Strategist','Growth Analyst','Brand Strategist'], healthcare:['Clinical Research Associate','Biotech Analyst','Medical Affairs Associate'], creative:['Operations Analyst','Project Manager','UX Designer'], other:['Operations Analyst','Project Manager','UX Designer'] },
+    20: { tech:['Product Manager','Solutions Engineer','UX Researcher'], finance:['Strategy Associate','Management Consultant','Investment Banking Analyst'], marketing:['Brand Strategist','Marketing Manager','Sales Development Representative'], healthcare:['Health Policy Analyst','Healthcare Consultant','Medical Affairs Associate'], creative:['Business Development Representative','Communications Manager','Project Manager'], other:['Business Development Representative','Communications Manager','Project Manager'] }
+  };
+
+  const ROLE_EMOJI = {
+    'Software Engineer': '💻', 'Product Manager': '📱', 'Data Analyst': '📊',
+    'UX Researcher': '🔍', 'Solutions Engineer': '⚙️',
+    'Investment Banking Analyst': '💰', 'Management Consultant': '📋',
+    'Financial Analyst': '📈', 'Strategy Associate': '🎯', 'Risk Analyst': '🛡️',
+    'Marketing Manager': '📣', 'Brand Strategist': '✨',
+    'Sales Development Representative': '🤝', 'Growth Analyst': '🚀',
+    'Content Strategist': '✍️', 'Clinical Research Associate': '🔬',
+    'Healthcare Consultant': '🏥', 'Biotech Analyst': '🧬',
+    'Medical Affairs Associate': '💊', 'Health Policy Analyst': '🏛️',
+    'Project Manager': '🗂️', 'Operations Analyst': '⚙️',
+    'Business Development Representative': '🤝', 'UX Designer': '🎨',
+    'Communications Manager': '📢'
+  };
+
+  function renderRoleMatch() {
+    if (!state.persona) return;
+    const ind = state.identity.industry || 'other';
+    const roles = (ROLE_MATRIX[state.persona.id] || {})[ind] || (ROLE_MATRIX[state.persona.id] || {}).other || [];
+    document.getElementById('role-match-list').innerHTML = roles.map(r =>
+      `<div class="role-match-item"><span class="rm-emoji">${ROLE_EMOJI[r] || '💼'}</span><span>${r}</span></div>`
+    ).join('');
+  }
+
+  function renderHireIf() {
+    if (!state.persona) return;
+    const items = HIRE_IF[state.persona.id];
+    if (!items) return;
+    document.getElementById('hire-if-persona-label').textContent = state.persona.en;
+    document.getElementById('hire-if-items').innerHTML = items.slice(0, 3).map(text =>
+      `<div class="hire-if-item"><div class="hire-if-box"></div><span class="hire-if-text">${text}</span></div>`
+    ).join('');
+  }
+
+  let workplaceActiveTab = 'manager';
+
+  // ── SCORING ──────────────────────────────────────────────────────────────
+  // ── COHORT MODIFIERS ─────────────────────────────────────────────────────
+  const INDUSTRY_NUDGE = {
+    tech:       { act:  0, comm:  0, inter: -5, conf:  0, strat: +5 },
+    finance:    { act: +3, comm: +8, inter: -3, conf: +5, strat:+10 },
+    marketing:  { act:  0, comm: +5, inter: +8, conf: +3, strat:  0 },
+    healthcare: { act: -3, comm:  0, inter: +5, conf: -3, strat: +3 },
+    creative:   { act: +3, comm: +5, inter: +3, conf: +5, strat: -5 },
+    other:      { act:  0, comm:  0, inter:  0, conf:  0, strat:  0 }
+  };
+  const YEAR_MODIFIER = {
+    sophomore: { conf: -3, strat: -5 },
+    senior:    { conf: +3, strat: +5 },
+    recent:    { conf: +5, strat: +3 }
+  };
+
+  function computeVector() {
+    const dims = ['act','comm','inter','conf','strat'];
+    const answered = state.answers.filter(a => a !== null);
+    if (!answered.length) return {act:50,comm:50,inter:50,conf:50,strat:50};
+    const totals = {act:0,comm:0,inter:0,conf:0,strat:0};
+    state.answers.forEach((optIdx, qIdx) => {
+      if (optIdx === null) return;
+      const s = MCQ_DATA[qIdx].scores[optIdx];
+      dims.forEach(d => totals[d] += s[d]);
+    });
+    const n = answered.length;
+    dims.forEach(d => totals[d] = Math.round(totals[d] / n));
+
+    // Apply Voice Adjustments (null when mic denied / skipped / timeout)
+    if (state.voiceAdjustments) {
+      dims.forEach(d => { totals[d] = Math.min(100, Math.max(0, totals[d] + (state.voiceAdjustments[d] || 0))); });
+    }
+
+    // Apply Industry Nudge
+    const nudge = INDUSTRY_NUDGE[state.identity.industry] || INDUSTRY_NUDGE.other;
+    dims.forEach(d => { totals[d] = Math.min(100, Math.max(0, totals[d] + (nudge[d] || 0))); });
+
+    // Apply School Year Modifier
+    const yearMod = YEAR_MODIFIER[state.identity.year] || { conf: 0, strat: 0 };
+    ['conf','strat'].forEach(d => { totals[d] = Math.min(100, Math.max(0, totals[d] + yearMod[d])); });
+
+    return totals;
+  }
+
+  function euclidean(a, b) {
+    return Math.sqrt(['act','comm','inter','conf','strat'].reduce((sum, d) => sum + Math.pow(a[d]-b[d], 2), 0));
+  }
+
+  function matchPersona(vec) {
+    const ranked = PERSONAS.map(p => ({ p, d: euclidean(vec, p.v) })).sort((a, b) => a.d - b.d);
+    const [first, second] = ranked;
+    if (second && Math.abs(first.d - second.d) < 5 && state.voiceAdjustments === null) {
+      // No voice transcript — fall back to Conf score proximity as tiebreaker
+      const dFirst  = Math.abs(vec.conf - first.p.v.conf);
+      const dSecond = Math.abs(vec.conf - second.p.v.conf);
+      return dFirst <= dSecond ? first.p : second.p;
+    }
+    return first.p;
+  }
+
+  // ── RADAR SVG (5D pentagon) ──────────────────────────────────────────────
+  function buildRadarSVG(vec) {
+    const cx = 110, cy = 108, maxR = 78;
+    const dims = ['act','comm','inter','conf','strat'];
+    const labels = ['Action','Communication','Interpersonal','Confidence','Strategy'];
+    const angles = dims.map((_, i) => -Math.PI / 2 + (2 * Math.PI / 5) * i);
+    const pt = (r, i) => ({ x: cx + r * Math.cos(angles[i]), y: cy + r * Math.sin(angles[i]) });
+    const toStr = pts => pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+    const rings = [0.33, 0.67, 1].map(f =>
+      `<polygon points="${toStr(dims.map((_,i) => pt(maxR*f, i)))}" fill="none" stroke="rgba(25,24,26,0.07)" stroke-width="1"/>`
+    ).join('');
+    const axes = dims.map((_,i) => {
+      const e = pt(maxR, i);
+      return `<line x1="${cx}" y1="${cy}" x2="${e.x.toFixed(1)}" y2="${e.y.toFixed(1)}" stroke="rgba(25,24,26,0.08)" stroke-width="1"/>`;
+    }).join('');
+
+    const dataPts = dims.map((d,i) => pt(maxR * (vec[d]/100), i));
+    const dataStr = toStr(dataPts);
+    const dots = dataPts.map(p =>
+      `<circle class="r-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="#19181A"/>`
+    ).join('');
+
+    const anchors = ['middle','start','start','end','end'];
+    const labelsEl = labels.map((l, i) => {
+      const p = pt(maxR + 20, i);
+      return `<text x="${p.x.toFixed(1)}" y="${(p.y+4).toFixed(1)}" text-anchor="${anchors[i]}" fill="rgba(25,24,26,0.45)" font-size="9" font-family="DM Sans,sans-serif">${l}</text>`;
+    }).join('');
+
+    return `<svg width="220" height="220" viewBox="-18 -18 256 252" style="overflow:visible">
+      ${rings}${axes}
+      <polygon class="r-fill" points="${dataStr}" fill="rgba(25,24,26,0.07)"/>
+      <polygon class="r-stroke" points="${dataStr}" fill="none" stroke="#19181A" stroke-width="1.5"/>
+      ${dots}${labelsEl}
+    </svg>`;
+  }
+
+  // ── RENDER RESULTS ───────────────────────────────────────────────────────
+  function renderResults() {
+    const vec = computeVector();
+    const persona = matchPersona(vec);
+    state.vector = vec;
+    state.persona = persona;
+
+    document.getElementById('result-persona-name').textContent = persona.en;
+    document.getElementById('result-tags-row').innerHTML = persona.tags.map(t => `<span class="ptag">${t}</span>`).join('');
+    document.getElementById('result-one-liner').textContent = persona.oneLiner;
+    document.getElementById('result-radar-svg').innerHTML = buildRadarSVG(vec);
+    document.getElementById('result-hot-take').textContent = persona.hotTake;
+    document.getElementById('result-lens').textContent = persona.lens;
+
+    const rarityEl = document.getElementById('result-rarity');
+    if (SHOW_RARITY.has(persona.rarityTier)) {
+      document.getElementById('result-rarity-stat').textContent = `Only ${persona.rarity}% of candidates match this profile`;
+      rarityEl.style.display = '';
+    } else {
+      rarityEl.style.display = 'none';
+    }
+
+  }
+
+  // ── WORKPLACE HABITS ─────────────────────────────────────────────────────
+  function toggleWorkplace() {
+    const card = document.getElementById('workplace-card');
+    const isOpen = card.classList.toggle('open');
+    if (isOpen) renderWorkplaceBody();
+  }
+
+  function switchWorkplaceTab(tab, el) {
+    workplaceActiveTab = tab;
+    document.querySelectorAll('.workplace-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderWorkplaceBody();
+  }
+
+  function renderWorkplaceBody() {
+    if (!state.persona) return;
+    const habits = WORKPLACE_HABITS[state.persona.id];
+    if (!habits) return;
+    document.getElementById('workplace-body-text').innerHTML = habits[workplaceActiveTab];
+  }
+
+  // ── SCREEN ROUTING ───────────────────────────────────────────────────────
+  function showScreen(id) {
+    document.querySelectorAll('[data-screen]').forEach(s => s.classList.remove('active'));
+    const t = document.querySelector(`[data-screen="${id}"]`);
+    if (t) t.classList.add('active');
+    window.scrollTo(0, 0);
+    if (id === 'mcq')     renderMcq(state.currentMcq || 0);
+    if (id === 'voice')   initWaveform();
+    if (id === 'loader')  startLoader();
+    if (id === 'results') { try { history.pushState({}, '', `/result/${SESSION_ID}`); } catch(_) {} renderResults(); requestAnimationFrame(() => t.classList.add('revealed')); setResultDate(); fireEvent('page_view', { page_path: `/result/${SESSION_ID}` }); }
+  }
+
+  function setResultDate() {
+    const el = document.getElementById('result-date');
+    if (el) el.textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric' });
+  }
+
+  function selectTag(group, value, el) {
+    el.closest('.tag-group').querySelectorAll('.tag').forEach(t => t.classList.remove('sel'));
+    el.classList.add('sel');
+    state.identity[group] = value;
+    if (state.identity.year && state.identity.industry) document.getElementById('btn-continue').disabled = false;
+  }
+
+  // ── MCQ ──────────────────────────────────────────────────────────────────
+  function prevMcq() {
+    if (state.currentMcq > 0) renderMcq(state.currentMcq - 1);
+    else showScreen('identity');
+  }
+
+  function renderMcq(index) {
+    state.currentMcq = index;
+    const d = MCQ_DATA[index];
+    const screen = document.querySelector('[data-screen="mcq"]');
+    screen.querySelector('.mcq-progress').style.width = d.progress;
+    document.getElementById('mcq-nav-label').textContent = `Step ${d.step} / 07`;
+    document.getElementById('mcq-ctx-label').textContent = d.ctx;
+    screen.querySelector('.mcq-question').textContent = d.q;
+    screen.querySelector('.mcq-recorded').textContent = '';
+    const container = screen.querySelector('.mcq-options');
+    container.innerHTML = '';
+    d.opts.forEach((text, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'mcq-opt';
+      btn.innerHTML = `<span class="opt-badge">${String.fromCharCode(65+i)}</span><span class="opt-text">${text}</span>`;
+      btn.addEventListener('click', () => selectMcqAnswer(index, i));
+      container.appendChild(btn);
+    });
+  }
+
+  function selectMcqAnswer(qIndex, optIndex) {
+    state.answers[qIndex] = optIndex;
+    document.querySelectorAll('[data-screen="mcq"] .mcq-opt').forEach((el, i) => {
+      el.classList.toggle('selected', i === optIndex);
+      el.classList.toggle('dim', i !== optIndex);
+    });
+    document.querySelector('[data-screen="mcq"] .mcq-recorded').textContent = '✓  Recorded — moving to next question...';
+    setTimeout(() => { if (qIndex < 4) renderMcq(qIndex + 1); else showScreen('voice'); }, 600);
+  }
+
+  // ── VOICE ────────────────────────────────────────────────────────────────
+  const WAVE_HEIGHTS = [8,20,32,16,36,24,12,30,38,20,14,28,10,22,34,18,8];
+  let recordTimer = null, recordSeconds = 0;
+
+  function initWaveform() {
+    const wf = document.getElementById('waveform');
+    wf.innerHTML = '';
+    WAVE_HEIGHTS.forEach(h => {
+      const bar = document.createElement('div');
+      bar.className = 'wave-bar'; bar.style.height = h + 'px'; wf.appendChild(bar);
+    });
+    document.getElementById('voice-timer').innerHTML = '0:00 / <span>0:30</span>';
+    document.getElementById('record-hint').textContent = 'Tap to record';
+    document.getElementById('record-btn').classList.remove('recording');
+    if (recordTimer) { clearInterval(recordTimer); recordTimer = null; }
+    recordSeconds = 0;
+  }
+
+  function toggleRecord() {
+    const btn = document.getElementById('record-btn');
+    if (!recordTimer) {
+      btn.classList.add('recording');
+      document.getElementById('record-hint').textContent = 'Recording... tap to stop';
+      document.querySelectorAll('.wave-bar').forEach(b => b.classList.add('on'));
+      recordTimer = setInterval(() => {
+        recordSeconds++;
+        const m = Math.floor(recordSeconds/60), s = recordSeconds%60;
+        document.getElementById('voice-timer').innerHTML = `${m}:${String(s).padStart(2,'0')} / <span>0:30</span>`;
+        if (recordSeconds >= 30) stopRecord();
+      }, 1000);
+    } else { stopRecord(); }
+  }
+
+  function stopRecord() {
+    if (recordTimer) { clearInterval(recordTimer); recordTimer = null; }
+    document.getElementById('record-btn').classList.remove('recording');
+    document.querySelectorAll('.wave-bar').forEach(b => b.classList.remove('on'));
+    document.getElementById('record-hint').textContent = 'Analyzing...';
+    setTimeout(() => showScreen('loader'), 600);
+  }
+
+  // ── LOADER ───────────────────────────────────────────────────────────────
+  const LOADER_MSGS = ['Benchmarking against 45,000+ New Grad JDs...','Generating your personalized 2026 recruiting questions...','Analyzing speech patterns and filler words...'];
+  let loaderInterval = null;
+
+  function startLoader() {
+    if (loaderInterval) clearInterval(loaderInterval);
+    let i = 0;
+    const copy = document.getElementById('loader-copy');
+    const dots = [0,1,2].map(n => document.getElementById(`ldot-${n}`));
+    copy.textContent = LOADER_MSGS[0];
+    dots.forEach((d,n) => d.classList.toggle('on', n === 0));
+    loaderInterval = setInterval(() => {
+      i = (i+1) % 3;
+      copy.style.opacity = '0';
+      setTimeout(() => { copy.textContent = LOADER_MSGS[i]; copy.style.opacity = '1'; dots.forEach((d,n) => d.classList.toggle('on', n === i)); }, 280);
+    }, 1200);
+    setTimeout(() => { clearInterval(loaderInterval); showScreen('results'); }, 3600);
+  }
+
+  // ── SHARE ────────────────────────────────────────────────────────────────
+  function handleShareFromResults() {
+    const name = state.persona ? state.persona.en : 'something unexpected';
+    const shareUrl = getShareUrl();
+    const sd = { title:'New Grad Aura Check', text:`Just found out I'm "${name}" 👀 What's your New Grad Aura?`, url: shareUrl };
+    if (navigator.share) { navigator.share(sd).then(() => { showScreen('unlock'); unlockContent(); }).catch(() => { showScreen('unlock'); unlockContent(); }); }
+    else { navigator.clipboard?.writeText(shareUrl).catch(() => {}); showScreen('unlock'); unlockContent(); }
+  }
+
+  function handleShare() {
+    const name = state.persona ? state.persona.en : 'something unexpected';
+    const shareUrl = getShareUrl();
+    const sd = { title:'New Grad Aura Check', text:`Apparently I'm "${name}"... What's your New Grad Aura? 👀`, url: shareUrl };
+    if (navigator.share) { navigator.share(sd).then(unlockContent).catch(unlockContent); }
+    else { navigator.clipboard?.writeText(shareUrl).catch(() => {}); unlockContent(); }
+  }
+
+  function unlockContent() {
+    const flash = document.createElement('div');
+    flash.style.cssText = 'position:fixed;inset:0;background:rgba(25,24,26,0.05);z-index:999;pointer-events:none;animation:flashOut 0.55s ease-out forwards';
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 620);
+    const pre = document.getElementById('pre-unlock');
+    pre.style.transition = 'opacity 0.25s ease-out';
+    pre.style.opacity = '0';
+    setTimeout(() => {
+      pre.style.display = 'none';
+      document.getElementById('post-unlock').classList.add('visible');
+      window.scrollTo(0,0);
+      renderHireIf();
+      renderRoleMatch();
+      workplaceActiveTab = 'manager';
+      const wcard = document.getElementById('workplace-card');
+      if (wcard) wcard.classList.remove('open');
+      document.querySelectorAll('.workplace-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+    }, 270);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => showScreen('hero'));
+</script>
+</body>
+</html>
